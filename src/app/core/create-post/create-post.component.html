@@ -1,0 +1,36 @@
+<form [formGroup]="PostForm" (ngSubmit)="submit()">
+    <div class="form-group row">
+        <label for="title" class="col-md-3 col-form-label text-md-right">Title</label>
+        <div class="col-md-6">
+            <input type="text" id="title" class="form-control" [formControlName]="'title'" name="title" required
+                autofocus>
+            <span *ngIf="!PostForm.get('title').valid && PostForm.get('title').touched">
+                Please provide a valid Post title
+            </span>
+        </div>
+    </div>
+
+    <div class="container col-md-8">
+        <editor [formControlName]="'description'" apiKey="5hk31bq90kk57t5fnfwl38x33p4cgz9sqyov5cqqfy8dmixd" [init]="{
+                   height: 500,
+                   menubar: false,
+                   plugins: [
+                     'advlist autolink lists link image charmap print preview anchor',
+                     'searchreplace visualblocks code fullscreen',
+                     'insertdatetime media table paste code help wordcount'
+                   ],
+                   toolbar:
+                     'undo redo | formatselect | bold italic backcolor | \
+                     alignleft aligncenter alignright alignjustify | \
+                     bullist numlist outdent indent | removeformat | help'
+                 }"></editor>
+        <span *ngIf="!PostForm.get('description').valid && PostForm.get('description').touched">
+            Description cannot be empty
+        </span>
+    </div>
+
+
+    <span class="col-md-6 offset-md-3">
+        <button type="submit" class="login">Post</button>
+    </span>
+</form>

@@ -1,0 +1,41 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group row">
+        <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
+        <div class="col-md-6">
+            <input type="text" id="email" class="form-control" [formControlName]="'email'" name="email" required
+                autofocus>
+            <span *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
+                Please provide a valid email
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+        <div class="col-md-6">
+            <input type="password" id="password" class="form-control" [formControlName]="'password'" name="password"
+                required>
+            <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
+                Password cannot be empty
+            </span>
+        </div>
+    </div>
+
+    <span class="col-md-6 offset-md-4">
+        <button type="submit" class="login">Login</button>
+        <span style="padding-left: 15px">New to Blog? <a routerLink="/signup">SIGN UP</a></span>
+    </span>
+</form>
+
+<div class="form-group row mt-3">
+    <div class="col-md-6 text-md-right">
+        <button (click)="socialLogIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
+            Login with Facebook
+        </button>
+    </div>
+    <div class="col-md-2 text-md-right">
+        <button (click)="socialLogIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
+            Login with Google
+        </button>
+    </div>
+</div>

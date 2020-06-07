@@ -1,0 +1,12 @@
+<p>home works!</p>
+
+
+<div class="container-fluid" *ngFor="let temp of (posts|async)">
+    <a routerLink="/postView/{{temp.postId}}">{{temp.postTitle}}</a>
+    <p class="lead">{{temp.userName}}</p>
+    <p *ngIf="temp.editDate !== null else create">{{temp.editDate}}</p>
+    <ng-template #create>
+        <p>{{temp.createdDate.toLocaleString().slice(0,10)}} {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
+    </ng-template>
+    <p class="post-text" [innerHtml]="temp.description"></p>
+</div>
