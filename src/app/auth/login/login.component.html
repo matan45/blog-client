@@ -1,3 +1,4 @@
+<h2 class="mb-2">Login</h2>
 <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="form-group row">
         <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
@@ -22,7 +23,7 @@
     </div>
 
     <span class="col-md-6 offset-md-4">
-        <button type="submit" class="login">Login</button>
+        <button [disabled]="loginForm.invalid" type="submit" class="btn btn-info">Login</button>
         <span style="padding-left: 15px">New to Blog? <a routerLink="/signup">SIGN UP</a></span>
     </span>
 </form>
@@ -30,12 +31,12 @@
 <div class="form-group row mt-3">
     <div class="col-md-6 text-md-right">
         <button (click)="socialLogIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
-            Login with Facebook
+            Facebook
         </button>
     </div>
     <div class="col-md-2 text-md-right">
         <button (click)="socialLogIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
-            Login with Google
+            Google
         </button>
     </div>
 </div>

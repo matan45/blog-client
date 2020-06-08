@@ -20,6 +20,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EditorModule } from '@tinymce/tinymce-angular'
 import { PostState } from './core/store/post.state';
 import { PostViewComponent } from './core/post-view/post-view.component';
+import { ShortenPipe } from './core/shorten.pipe';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { PostViewComponent } from './core/post-view/post-view.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    ShortenPipe,
     CreatePostComponent,
     PostViewComponent
   ],

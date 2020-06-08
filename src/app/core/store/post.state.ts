@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Router } from '@angular/router';
 import { PostService } from '../post.service';
 import { CreatePost, FetchPosts, PostById, CreateComment } from './post.actions';
 import { PostResponse } from '../entities/PostResponsePayload';
+import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 export class PostStateModel {
@@ -31,7 +32,7 @@ export class PostStateModel {
     providedIn: "root",
 })
 export class PostState {
-    constructor(private router: Router, private post: PostService) { }
+    constructor(private post: PostService, private router: Router) { }
 
     @Selector()
     static getPosts(state: PostStateModel) {
@@ -46,13 +47,15 @@ export class PostState {
 
     @Action(CreatePost)
     Postcreate(
-        { getState, patchState }: StateContext<PostStateModel>,
+        { getState, patchState, dispatch }: StateContext<PostStateModel>,
         { payload }: CreatePost
     ) {
         this.post.create(payload).subscribe(() => {
-            this.router.navigateByUrl('').then(() => window.window.location.reload());
+            this.router.navigateByUrl('').then(() => {
+                dispatch(new FetchPosts());
+            });
         }, error => {
-            console.log(error);
+            throwError(error);
         });
     }
 
@@ -62,7 +65,7 @@ export class PostState {
     ) {
         this.post.fetchposts().subscribe(data => {
             patchState({
-                posts: data
+                posts: data.reverse()
             });
         });
     }
@@ -76,19 +79,22 @@ export class PostState {
             patchState({
                 post: data
             });
+        }, error => {
+            throwError(error);
         });
     }
 
     @Action(CreateComment)
     Commentcreate(
-        { getState, patchState }: StateContext<PostStateModel>,
+        { getState, patchState, dispatch }: StateContext<PostStateModel>,
         { payload }: CreateComment
     ) {
         this.post.createComment(payload).subscribe(() => {
-            window.window.location.reload();
+            dispatch(new PostById(payload.postId));
         }, error => {
-            console.log(error);
+            throwError(error);
         });
     }
 
+    
 }

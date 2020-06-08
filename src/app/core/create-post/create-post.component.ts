@@ -6,6 +6,7 @@ import { Store, Select } from '@ngxs/store';
 import { CreatePost } from '../store/post.actions';
 import { Observable } from 'rxjs';
 import { PostState } from '../store/post.state';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-post',
@@ -16,7 +17,7 @@ export class CreatePostComponent implements OnInit {
   PostForm: FormGroup;
   postPayload: PostPayload;
 
-  constructor(private auth: AuthService, private store: Store) {
+  constructor(private auth: AuthService, private store: Store,private router: Router) {
 
     this.postPayload = {
       postTitle: '',
@@ -38,6 +39,7 @@ export class CreatePostComponent implements OnInit {
     this.postPayload.description = this.PostForm.get('description').value;
     this.postPayload.userEmail = this.auth.getEmail();
     this.store.dispatch(new CreatePost(this.postPayload));
+    this.router.navigateByUrl('')
   }
 
 }

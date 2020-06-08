@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, HostListener } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PostResponse } from '../entities/PostResponsePayload';
@@ -17,6 +17,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new FetchPosts());
+  }
+
+  @HostListener("window:scroll", [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+      //TODO: posts pagination 
+    }
   }
 
 }

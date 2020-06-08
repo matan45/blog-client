@@ -1,4 +1,4 @@
-<p>home works!</p>
+<h2 class="lead mb-4">Posts</h2>
 
 
 <div class="container-fluid" *ngFor="let temp of (posts|async)">
@@ -8,5 +8,5 @@
     <ng-template #create>
         <p>{{temp.createdDate.toLocaleString().slice(0,10)}} {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
     </ng-template>
-    <p class="post-text" [innerHtml]="temp.description"></p>
+    <p [innerHTML]="temp.description | shorten: 100"></p>
 </div>

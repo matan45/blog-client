@@ -5,9 +5,10 @@
 <p>{{(post|async).postTitle}}</p>
 <p *ngIf="(post|async).editDate !== null else create">{{(post|async).editDate}}</p>
 <ng-template #create>
-    <p>{{(post|async).createdDate.toLocaleString().slice(0,10)}} {{(post|async).createdDate.toLocaleString().slice(11,16)}}</p>
+    <p>{{(post|async).createdDate.toLocaleString().slice(0,10)}}
+        {{(post|async).createdDate.toLocaleString().slice(11,16)}}</p>
 </ng-template>
-<p class="post-text" [innerHtml]="(post|async).description"></p>
+<p [innerHTML]="(post|async).description"></p>
 <div *ngFor="let temp of (post|async).comments">
     <p>{{temp.userName}}</p>
     <p>{{temp.text}}</p>
@@ -23,10 +24,11 @@
                plugins: [
                  'advlist autolink lists link image charmap print preview anchor',
                  'searchreplace visualblocks code fullscreen',
-                 'insertdatetime media table paste code help wordcount'
+                 'insertdatetime media table paste code help wordcount',
+                 'emoticons'
                ],
                toolbar:
-                 'undo redo | formatselect | bold italic backcolor | \
+                 'undo redo | emoticons | formatselect | bold italic backcolor | \
                  alignleft aligncenter alignright alignjustify | \
                  bullist numlist outdent indent | removeformat | help'
              }"></editor>
@@ -35,7 +37,7 @@
         </span>
     </div>
     <div class="col-md-4 offset-md-2 offset-mt-2">
-        <button type="submit" class="btn btn-primary">comment</button>
+        <button [disabled]="commentForm.invalid" type="submit" class="btn btn-primary">comment</button>
     </div>
 </form>
 
