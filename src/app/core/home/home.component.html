@@ -2,11 +2,18 @@
 
 
 <div class="container-fluid" *ngFor="let temp of (posts|async)">
-    <a routerLink="/postView/{{temp.postId}}">{{temp.postTitle}}</a>
-    <p class="lead">{{temp.userName}}</p>
-    <p *ngIf="temp.editDate !== null else create">{{temp.editDate}}</p>
-    <ng-template #create>
-        <p>{{temp.createdDate.toLocaleString().slice(0,10)}} {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
-    </ng-template>
-    <p [innerHTML]="temp.description | shorten: 100"></p>
+    <div class="card card-background mb-3">
+        <div class="card-header">
+            <p *ngIf="temp.editDate !== null else create">Edit: {{temp.editDate.toLocaleString().slice(0,10)}} {{temp.editDate.toLocaleString().slice(11,16)}}</p>
+            <ng-template #create>
+                <p>Created: {{temp.createdDate.toLocaleString().slice(0,10)}} {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
+            </ng-template>
+        </div>
+        <div class="card-body">
+            <a class="card-title h4" routerLink="/postView/{{temp.postId}}">{{temp.postTitle}}</a>
+            <hr>
+            <p class="card-text ml-2 mt-2" [innerHTML]="temp.description | shorten: 100"></p>
+        </div>
+        <p class="card-footer card-muted">Created By: {{temp.userName}}</p>
+    </div>
 </div>

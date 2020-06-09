@@ -1,0 +1,3 @@
+.card-background{
+  background-image: linear-gradient(rgb(255, 255, 255), rgb(135,206,235)); /* Standard syntax (must be last) */
+}

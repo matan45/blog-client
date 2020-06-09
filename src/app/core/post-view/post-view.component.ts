@@ -50,5 +50,6 @@ export class PostViewComponent implements OnInit {
     this.commentRequest.postId = this.postId;
     this.commentRequest.userName = this.auth.getUserName();
     this.store.dispatch(new CreateComment(this.commentRequest));
+    this.commentForm.reset();
   }
 }
