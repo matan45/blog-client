@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { Select, Store } from '@ngxs/store';
 import { PostState } from '../store/post.state';
-import { PostById, CreateComment } from '../store/post.actions';
+import { PostById, CreateComment, CreatedByUser } from '../store/post.actions';
 import { CommentsRequest } from '../entities/CommentsRequestPayload';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -16,10 +16,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class PostViewComponent implements OnInit {
   @Select(PostState.getPost) post: Observable<PostResponse>;
+  @Select(PostState.getisCreatedByUser) isEdit: Observable<boolean>;
   commentRequest: CommentsRequest;
   commentForm: FormGroup;
   postId: string;
   public islogin: boolean = false;
+  public iscreated:boolean =false;
 
   constructor(private route: ActivatedRoute, private store: Store, private auth: AuthService) {
     this.commentRequest = {
@@ -27,10 +29,10 @@ export class PostViewComponent implements OnInit {
       text: '',
       userName: ''
     };
+    this.islogin = this.auth.isLoggedIn();
   }
 
   ngOnInit(): void {
-    this.islogin = this.auth.isLoggedIn();
     this.commentForm = new FormGroup({
       text: new FormControl('', Validators.required),
     });
@@ -43,6 +45,15 @@ export class PostViewComponent implements OnInit {
   getPostparam() {
     this.postId = this.route.snapshot.paramMap.get("id");
     this.store.dispatch(new PostById(this.postId));
+    if(this.islogin){
+      this.store.dispatch(new CreatedByUser(this.postId));
+    }
+/*
+    // find the item in the cart based on item id
+    let existingCartItem = this.userpostarray.find( PostItem => PostItem.id === this.postId );
+
+    // check if we found it
+    this.iscreated = (existingCartItem != undefined);*/
   }
 
   submit() {

@@ -8,6 +8,7 @@ export class CreatePost {
 
 export class FetchPosts {
     static readonly type = "[Post]fetch-posts";
+    constructor(public payload: number) { }
 }
 
 export class PostById {
@@ -18,4 +19,9 @@ export class PostById {
 export class CreateComment {
     static readonly type = "[Post]create-comment";
     constructor(public payload: CommentsRequest) { }
+}
+
+export class CreatedByUser {
+    static readonly type = "[Post]is-Created-By-User";
+    constructor(public payload: string) { }
 }

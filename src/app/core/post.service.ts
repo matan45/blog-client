@@ -6,27 +6,34 @@ import { environment } from 'src/environments/environment';
 import { PostResponse } from './entities/PostResponsePayload';
 import { map } from 'rxjs/operators';
 import { CommentsRequest } from './entities/CommentsRequestPayload';
+import { environment as prod } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
+  readonly serverURL= environment.production ? prod.ServerUrl : environment.ServerUrl;;
+
   constructor(private httpClient: HttpClient) { }
 
   create(postPayload: PostPayload): Observable<any> {
-    return this.httpClient.post(`${environment.ServerUrl}/api/posts/`, postPayload);
+    return this.httpClient.post(`${this.serverURL}/api/posts/`, postPayload);
   }
 
-  fetchposts(): Observable<PostResponse[]> {
-    return this.httpClient.get<PostResponse[]>(`${environment.ServerUrl}/api/posts/query/all`).pipe(map(response => response));
+  fetchposts(page:number): Observable<PostResponse[]> {
+    return this.httpClient.get<PostResponse[]>(`${this.serverURL}/api/posts/query/all/${page}`).pipe(map(response => response));
   }
 
   fetchpost(postId:string): Observable<PostResponse> {
-    return this.httpClient.get<PostResponse>(`${environment.ServerUrl}/api/posts/${postId}`).pipe(map(response => response));
+    return this.httpClient.get<PostResponse>(`${this.serverURL}/api/posts/${postId}`).pipe(map(response => response));
   }
 
   createComment(commentPayload: CommentsRequest): Observable<any> {
-    return this.httpClient.post(`${environment.ServerUrl}/api/comments/`, commentPayload);
+    return this.httpClient.post(`${this.serverURL}/api/comments/`, commentPayload);
+  }
+
+  isCreatedByUser(postId:string): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.serverURL}/api/user/byUser/${postId}`).pipe(map(response => response));
   }
 }

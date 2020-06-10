@@ -8,9 +8,12 @@ import { map, tap } from 'rxjs/operators';
 import { RegisterRequest } from './Entities/RegisterRequestPayload';
 import { RefreshTokenPayload } from './Entities/RefreshTokenPayload';
 import { environment } from 'src/environments/environment';
+import { environment as prod } from 'src/environments/environment.prod';
 
 @Injectable()
 export class AuthService {
+
+  readonly serverURL = environment.production ? prod.ServerUrl : environment.ServerUrl;
 
   refreshTokenPayload: RefreshTokenPayload = {
     refreshToken: this.getRefreshToken(),
@@ -20,7 +23,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private localStorage: LocalStorageService) { }
 
   login(loginRequestPayload: LoginRequest): Observable<boolean> {
-    return this.httpClient.post<LoginResponse>(`${environment.ServerUrl}/api/auth/login`, loginRequestPayload)
+    return this.httpClient.post<LoginResponse>(`${this.serverURL}/api/auth/login`, loginRequestPayload)
       .pipe(map(data => {
         this.refreshTokenPayload = {
           refreshToken: data.refreshToken,
@@ -36,7 +39,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.httpClient.post<LoginResponse>(`${environment.ServerUrl}/api/auth/refresh/token`,
+    return this.httpClient.post<LoginResponse>(`${this.serverURL}/api/auth/refresh/token`,
       this.refreshTokenPayload)
       .pipe(tap(response => {
         this.localStorage.store('authenticationToken', response.authenticationToken);
@@ -45,7 +48,7 @@ export class AuthService {
   }
 
   register(registerPayload: RegisterRequest): Observable<any> {
-    return this.httpClient.post(`${environment.ServerUrl}/api/auth/signup`, registerPayload, { responseType: 'text' });
+    return this.httpClient.post(`${this.serverURL}/api/auth/signup`, registerPayload, { responseType: 'text' });
   }
 
   getJwtToken() {
@@ -73,7 +76,7 @@ export class AuthService {
   }
 
   logout() {
-    this.httpClient.post(`${environment.ServerUrl}/api/auth/logout`, this.refreshTokenPayload,
+    this.httpClient.post(`${this.serverURL}/api/auth/logout`, this.refreshTokenPayload,
       { responseType: 'text' })
       .subscribe(data => {
         console.log(data);

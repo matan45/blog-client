@@ -1,6 +1,10 @@
 <div class="container-fluid card border-purple">
     <h2>{{(post|async).postTitle}}</h2>
     <h6 class="lead ml-3">By: {{(post|async).userName}}</h6>
+    <div *ngIf="(isEdit|async)" class="ml-sm-auto">
+        <a class="btn btn-warning mr-2" routerLink="/post/edit">Edit</a>
+        <button class="btn btn-danger">Delete</button>
+    </div>
     <hr>
     <p [innerHTML]="(post|async).description"></p>
     <div class="card-footer text-muted">
@@ -18,16 +22,16 @@
 <h4 class="lead mt-4">Comments:</h4>
 <div class="media ml-sm-4 mt-4" *ngFor="let temp of (post|async).comments">
     <div class="card border-lime p-2 container-fluid">
-        
-            <h5>{{temp.userName}}</h5>
-            <p class="text-muted">created: {{temp.createdDate.toLocaleString().slice(0,10)}}
-                {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
-        
+
+        <h5>{{temp.userName}}</h5>
+        <p class="text-muted">created: {{temp.createdDate.toLocaleString().slice(0,10)}}
+            {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
+
         <div class="media-body card border-primary">
             <p class="ml-2 font-comment">{{temp.text}}</p>
         </div>
     </div>
-    
+
 
 </div>
 <hr>

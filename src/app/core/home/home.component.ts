@@ -12,17 +12,19 @@ import { FetchPosts } from '../store/post.actions';
 })
 export class HomeComponent implements OnInit {
   @Select(PostState.getPosts) posts: Observable<PostResponse[]>;
+  page: number = 0;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new FetchPosts());
+    this.store.dispatch(new FetchPosts(this.page));
   }
 
   @HostListener("window:scroll", [])
   onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-      //TODO: posts pagination 
+      this.store.dispatch(new FetchPosts(++this.page));
+      window.scrollTo(0,window.screen.availHeight);
     }
   }
 

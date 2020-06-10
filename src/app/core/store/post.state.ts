@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { PostService } from '../post.service';
-import { CreatePost, FetchPosts, PostById, CreateComment } from './post.actions';
+import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser } from './post.actions';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class PostStateModel {
     posts: PostResponse[];
     post: PostResponse;
+    isCreatedByUser: boolean;
 }
 
 @State<PostStateModel>({
@@ -24,7 +25,8 @@ export class PostStateModel {
             postId: '',
             postTitle: '',
             userName: ''
-        }
+        },
+        isCreatedByUser: false
     }
 
 })
@@ -40,10 +42,14 @@ export class PostState {
     }
 
     @Selector()
+    static getisCreatedByUser(state: PostStateModel) {
+        return state.isCreatedByUser;
+    }
+
+    @Selector()
     static getPost(state: PostStateModel) {
         return state.post;
     }
-
 
     @Action(CreatePost)
     Postcreate(
@@ -52,7 +58,8 @@ export class PostState {
     ) {
         this.post.create(payload).subscribe(() => {
             this.router.navigateByUrl('').then(() => {
-                dispatch(new FetchPosts());
+                getState().posts = [];
+                dispatch(new FetchPosts(0));
             });
         }, error => {
             throwError(error);
@@ -61,12 +68,24 @@ export class PostState {
 
     @Action(FetchPosts)
     Fetchposts(
-        { getState, patchState }: StateContext<PostStateModel>
+        { getState, patchState }: StateContext<PostStateModel>,
+        { payload }: FetchPosts
     ) {
-        this.post.fetchposts().subscribe(data => {
-            patchState({
-                posts: data.reverse()
-            });
+        if (payload == 0) {
+            getState().posts = [];
+        }
+
+        this.post.fetchposts(payload).subscribe(data => {
+            if (data.length > 0 && getState().posts.length > 0) {
+                const currentpost: PostResponse[] = getState().posts;
+                patchState({
+                    posts: currentpost.concat(data).reverse()
+                });
+            } else if (data.length > 0 && getState().posts.length === 0) {
+                patchState({
+                    posts: data.reverse()
+                });
+            }
         });
     }
 
@@ -96,5 +115,20 @@ export class PostState {
         });
     }
 
-    
+
+    @Action(CreatedByUser)
+    isCreatedByUserpost(
+        { getState, patchState }: StateContext<PostStateModel>,
+        { payload }: CreatedByUser
+    ) {
+        getState().isCreatedByUser = false;
+        this.post.isCreatedByUser(payload).subscribe(data => {
+            patchState({
+                isCreatedByUser: data
+            });
+        }, error => {
+            throwError(error);
+        });
+    }
+
 }
