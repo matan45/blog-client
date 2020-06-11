@@ -36,4 +36,8 @@ export class PostService {
   isCreatedByUser(postId:string): Observable<boolean> {
     return this.httpClient.get<boolean>(`${this.serverURL}/api/user/byUser/${postId}`).pipe(map(response => response));
   }
+
+  deletepost(postId:string): Observable<any> {
+    return this.httpClient.delete(`${this.serverURL}/api/user/delete/post?postId=${postId}`).pipe(map(response => response));
+  }
 }

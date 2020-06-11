@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   signupRequestPayload: RegisterRequest;
   @Select(AuthState.getMassage) Massage: Observable<string>;
- 
+
 
   constructor(private store: Store, private toastr: ToastrService, private authService: AuthService) {
     this.signupRequestPayload = {
@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
     this.registerForm = new FormGroup({
       username: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', [Validators.required,Validators.minLength(8)])
     });
   }
 
@@ -64,14 +64,15 @@ export class SignupComponent implements OnInit {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
     this.authService.signIn(socialPlatformProvider).then(socialusers => {
-      this.signupRequestPayload = {
-        username: socialusers.name,
-        email: socialusers.email,
-        password: socialusers.name
-      };
-      this.signup();
+      if (socialusers != null) {
+        this.signupRequestPayload = {
+          username: socialusers.name,
+          email: socialusers.email,
+          password: socialusers.name
+        };
+        this.signup();
+      }
     });
   }
 
- 
 }

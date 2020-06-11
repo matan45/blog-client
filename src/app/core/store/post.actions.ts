@@ -25,3 +25,8 @@ export class CreatedByUser {
     static readonly type = "[Post]is-Created-By-User";
     constructor(public payload: string) { }
 }
+
+export class DeletPost {
+    static readonly type = "[Post]Delete-post";
+    constructor(public payload: string) { }
+}

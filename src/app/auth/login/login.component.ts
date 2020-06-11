@@ -59,11 +59,14 @@ export class LoginComponent implements OnInit {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
     this.authService.signIn(socialPlatformProvider).then(socialusers => {
-      this.loginRequestPayload = {
-        email: socialusers.email,
-        password: socialusers.name
-      };
-      this.sendlogin();
+      if(socialusers != null){
+        this.loginRequestPayload = {
+          email: socialusers.email,
+          password: socialusers.name
+        };
+        this.sendlogin();
+      }
+      
     });
   }
 }

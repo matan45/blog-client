@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { Select, Store } from '@ngxs/store';
 import { PostState } from '../store/post.state';
-import { PostById, CreateComment, CreatedByUser } from '../store/post.actions';
+import { PostById, CreateComment, CreatedByUser, DeletPost } from '../store/post.actions';
 import { CommentsRequest } from '../entities/CommentsRequestPayload';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -48,12 +48,11 @@ export class PostViewComponent implements OnInit {
     if(this.islogin){
       this.store.dispatch(new CreatedByUser(this.postId));
     }
-/*
-    // find the item in the cart based on item id
-    let existingCartItem = this.userpostarray.find( PostItem => PostItem.id === this.postId );
 
-    // check if we found it
-    this.iscreated = (existingCartItem != undefined);*/
+  }
+
+  deletepost(){
+    this.store.dispatch(new DeletPost(this.postId));
   }
 
   submit() {

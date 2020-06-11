@@ -1,5 +1,6 @@
 
-<h2>{{postMode.toUpperCase( )}} Post</h2>
+
+<h2>{{postMode.toUpperCase()}} Post</h2>
 
 <form [formGroup]="PostForm" (ngSubmit)="submit()">
     <div class="form-group row">
@@ -15,23 +16,29 @@
 
     <div class="container-md">
         <editor [formControlName]="'description'" apiKey="5hk31bq90kk57t5fnfwl38x33p4cgz9sqyov5cqqfy8dmixd" [init]="{
-                   height: 300,
-                   menubar: false,
-                   plugins: [
-                     'advlist autolink lists link image charmap print preview anchor',
-                     'searchreplace visualblocks code fullscreen',
-                     'insertdatetime media table paste code help wordcount'
-                   ],
-                   toolbar:
-                     'undo redo | formatselect | bold italic backcolor | \
-                     alignleft aligncenter alignright alignjustify | \
-                     bullist numlist outdent indent | removeformat | help'
-                 }"></editor>
+            height: 300,
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar:
+              'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent | removeformat | help | link image',
+              
+            image_title: true,
+            automatic_uploads: true
+            
+          }"></editor>
+				
         <span *ngIf="!PostForm.get('description').valid && PostForm.get('description').touched">
             Description cannot be empty
         </span>
-        <button [disabled]="PostForm.invalid" type="submit" class="btn-info mt-2">Post</button>
+        <div>
+            <button [disabled]="PostForm.invalid" type="submit" class="btn-info mt-2">Post</button>
+        </div>
     </div>
-
-
 </form>
+

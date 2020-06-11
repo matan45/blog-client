@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { PostService } from '../post.service';
-import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser } from './post.actions';
+import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser, DeletPost } from './post.actions';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -58,7 +58,6 @@ export class PostState {
     ) {
         this.post.create(payload).subscribe(() => {
             this.router.navigateByUrl('').then(() => {
-                getState().posts = [];
                 dispatch(new FetchPosts(0));
             });
         }, error => {
@@ -125,6 +124,20 @@ export class PostState {
         this.post.isCreatedByUser(payload).subscribe(data => {
             patchState({
                 isCreatedByUser: data
+            });
+        }, error => {
+            throwError(error);
+        });
+    }
+
+    @Action(DeletPost)
+    deletePost(
+        { getState, patchState, dispatch }: StateContext<PostStateModel>,
+        { payload }: DeletPost
+    ) {
+        this.post.deletepost(payload).subscribe(() => {
+            this.router.navigateByUrl('').then(() => {
+                dispatch(new FetchPosts(0));
             });
         }, error => {
             throwError(error);

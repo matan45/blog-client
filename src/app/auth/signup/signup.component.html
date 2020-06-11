@@ -24,6 +24,9 @@
             <input type="password" [formControlName]="'password'" id="password" class="form-control" name="password">
             <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched"
                 class="help-block">Please enter a valid password</span>
+            <span *ngIf="registerForm.get('password').hasError('minlength')">
+                Must be at least 8 characters!
+            </span>
         </div>
     </div>
 
@@ -36,13 +39,12 @@
 <div class="form-group row mt-3">
     <div class="col-md-6 text-md-right">
         <button (click)="socialSignIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
-        Facebook
+            Facebook
         </button>
     </div>
     <div class="col-md-2  text-md-right">
         <button (click)="socialSignIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
-        Google
+            Google
         </button>
     </div>
 </div>
-
