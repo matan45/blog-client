@@ -1,5 +1,6 @@
 import { PostPayload } from '../entities/postPayload';
 import { CommentsRequest } from '../entities/CommentsRequestPayload';
+import {  EditPostPayload } from '../entities/EditPostPayload';
 
 export class CreatePost {
     static readonly type = "[Post]create-post";
@@ -29,4 +30,9 @@ export class CreatedByUser {
 export class DeletPost {
     static readonly type = "[Post]Delete-post";
     constructor(public payload: string) { }
+}
+
+export class EditPost {
+    static readonly type = "[Post]edit-post";
+    constructor(public payload: EditPostPayload) { }
 }

@@ -22,11 +22,13 @@
         <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
         <div class="col-md-6">
             <input type="password" [formControlName]="'password'" id="password" class="form-control" name="password">
-            <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched"
-                class="help-block">Please enter a valid password</span>
-            <span *ngIf="registerForm.get('password').hasError('minlength')">
-                Must be at least 8 characters!
-            </span>
+            <div>
+                <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched"
+                    class="help-block">Please enter a valid password</span>
+                <span *ngIf="registerForm.get('password').hasError('minlength')">
+                    Must be at least 8 characters!
+                </span>
+            </div>
         </div>
     </div>
 

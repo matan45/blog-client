@@ -4,9 +4,9 @@
 <div class="container-fluid" *ngFor="let temp of (posts|async)">
     <div class="card card-background mb-3">
         <div class="card-header">
-            <p *ngIf="temp.editDate !== null else create">Edit: {{temp.editDate.toLocaleString().slice(0,10)}} {{temp.editDate.toLocaleString().slice(11,16)}}</p>
+            <p *ngIf="temp.editDate !== null else create">Edit: {{temp.editDate.slice(0,10)}} {{temp.editDate.slice(11,16)}}</p>
             <ng-template #create>
-                <p>Created: {{temp.createdDate.toLocaleString().slice(0,10)}} {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
+                <p>Created: {{temp.createdDate.slice(0,10)}} {{temp.createdDate.slice(11,16)}}</p>
             </ng-template>
         </div>
         <div class="card-body">

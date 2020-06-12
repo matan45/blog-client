@@ -66,7 +66,8 @@ export class LoginComponent implements OnInit {
         };
         this.sendlogin();
       }
-      
+    },error=>{
+      console.log(error);
     });
   }
 }

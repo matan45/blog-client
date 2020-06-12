@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegisterRequest } from '../Entities/RegisterRequestPayload';
 import { Store, Select } from '@ngxs/store';
@@ -7,6 +7,7 @@ import { AuthState } from '../store/auth.state';
 import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,8 @@ export class SignupComponent implements OnInit {
     this.signupRequestPayload = {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      created: ''
     }
   }
 
@@ -32,7 +34,7 @@ export class SignupComponent implements OnInit {
     this.registerForm = new FormGroup({
       username: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required,Validators.minLength(8)])
+      password: new FormControl('', [Validators.required, Validators.minLength(8)])
     });
   }
 
@@ -40,6 +42,7 @@ export class SignupComponent implements OnInit {
     this.signupRequestPayload.email = this.registerForm.get('email').value;
     this.signupRequestPayload.username = this.registerForm.get('username').value;
     this.signupRequestPayload.password = this.registerForm.get('password').value;
+    this.signupRequestPayload.created = moment().format().toString();
     this.signup();
   }
 
@@ -68,10 +71,13 @@ export class SignupComponent implements OnInit {
         this.signupRequestPayload = {
           username: socialusers.name,
           email: socialusers.email,
-          password: socialusers.name
+          password: socialusers.name,
+          created: moment().format().toString()
         };
         this.signup();
       }
+    }, error => {
+      console.log(error);
     });
   }
 

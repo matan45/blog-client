@@ -8,6 +8,7 @@ import { PostById, CreateComment, CreatedByUser, DeletPost } from '../store/post
 import { CommentsRequest } from '../entities/CommentsRequestPayload';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-post-view',
@@ -21,13 +22,14 @@ export class PostViewComponent implements OnInit {
   commentForm: FormGroup;
   postId: string;
   public islogin: boolean = false;
-  public iscreated:boolean =false;
+  public iscreated: boolean = false;
 
   constructor(private route: ActivatedRoute, private store: Store, private auth: AuthService) {
     this.commentRequest = {
       postId: '',
       text: '',
-      userName: ''
+      userName: '',
+      createDate: ''
     };
     this.islogin = this.auth.isLoggedIn();
   }
@@ -45,20 +47,23 @@ export class PostViewComponent implements OnInit {
   getPostparam() {
     this.postId = this.route.snapshot.paramMap.get("id");
     this.store.dispatch(new PostById(this.postId));
-    if(this.islogin){
+    if (this.islogin) {
       this.store.dispatch(new CreatedByUser(this.postId));
     }
 
   }
 
-  deletepost(){
-    this.store.dispatch(new DeletPost(this.postId));
+  deletepost() {
+    if (confirm("are you sure you want to delete this post?")) {
+      this.store.dispatch(new DeletPost(this.postId));
+    }
   }
 
   submit() {
     this.commentRequest.text = this.commentForm.get('text').value;
     this.commentRequest.postId = this.postId;
     this.commentRequest.userName = this.auth.getUserName();
+    this.commentRequest.createDate = moment().format().toString();
     this.store.dispatch(new CreateComment(this.commentRequest));
     this.commentForm.reset();
   }

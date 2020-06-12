@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostPayload } from '../entities/postPayload';
-import { AuthService } from 'src/app/auth/auth.service';
 import { Store, Select } from '@ngxs/store';
-import { CreatePost, PostById } from '../store/post.actions';
+import { CreatePost, PostById, EditPost } from '../store/post.actions';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, from } from 'rxjs';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { PostState } from '../store/post.state';
+import { EditPostPayload } from '../entities/EditPostPayload';
+import * as moment from 'moment';
 
 
 @Component({
@@ -19,15 +20,22 @@ export class CreatePostComponent implements OnInit {
   @Select(PostState.getPost) post: Observable<PostResponse>;
   PostForm: FormGroup;
   postPayload: PostPayload;
+  editPostPayload: EditPostPayload;
   public postMode: string;
   postId: string;
 
-  constructor(private auth: AuthService, private store: Store, private route: ActivatedRoute) {
+  constructor(private store: Store, private route: ActivatedRoute) {
     this.postPayload = {
       postTitle: '',
       description: '',
-      userEmail: ''
+      createdDate: ''
     };
+    this.editPostPayload = {
+      postId: '',
+      postTitle: '',
+      description: '',
+      editDate: ''
+    }
   }
 
   ngOnInit(): void {
@@ -42,19 +50,13 @@ export class CreatePostComponent implements OnInit {
     this.postMode = this.route.snapshot.paramMap.get("mode");
     if (this.postMode === "edit") {
       this.postId = this.route.snapshot.paramMap.get("id");
-      if (this.postPayload.postTitle.length === 0 || this.postPayload.description.length === 0) {
-        this.store.dispatch(new PostById(this.postId));
-      }
 
+      this.store.dispatch(new PostById(this.postId));
       this.post.subscribe(data => {
-        if (data.postTitle.length === 0 || data.description.length === 0) {
-          this.store.dispatch(new PostById(this.postId));
-        } else {
-          this.PostForm = new FormGroup({
-            title: new FormControl(data.postTitle, Validators.required),
-            description: new FormControl(data.description, [Validators.required])
-          });
-        }
+        this.PostForm = new FormGroup({
+          title: new FormControl(data.postTitle, Validators.required),
+          description: new FormControl(data.description, [Validators.required])
+        });
       });
 
     } else {
@@ -76,12 +78,16 @@ export class CreatePostComponent implements OnInit {
   createPost() {
     this.postPayload.postTitle = this.PostForm.get('title').value;
     this.postPayload.description = this.PostForm.get('description').value;
-    this.postPayload.userEmail = this.auth.getEmail();
+    this.postPayload.createdDate = moment().format().toString();
     this.store.dispatch(new CreatePost(this.postPayload));
   }
 
   editPost() {
-
+    this.editPostPayload.postTitle = this.PostForm.get('title').value;
+    this.editPostPayload.description = this.PostForm.get('description').value;
+    this.editPostPayload.editDate = moment().format().toString();
+    this.editPostPayload.postId = this.postId;
+    this.store.dispatch(new EditPost(this.editPostPayload));
   }
 
 }

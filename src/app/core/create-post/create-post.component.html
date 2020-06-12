@@ -21,10 +21,11 @@
             plugins: [
               'advlist autolink lists link image charmap print preview anchor',
               'searchreplace visualblocks code fullscreen',
-              'insertdatetime media table paste code help wordcount'
+              'insertdatetime media table paste code help wordcount',
+              'emoticons'
             ],
             toolbar:
-              'undo redo | formatselect | bold italic backcolor | \
+              'undo redo | emoticons | formatselect | bold italic backcolor | \
               alignleft aligncenter alignright alignjustify | \
               bullist numlist outdent indent | removeformat | help | link image',
               
@@ -37,7 +38,7 @@
             Description cannot be empty
         </span>
         <div>
-            <button [disabled]="PostForm.invalid" type="submit" class="btn-info mt-2">Post</button>
+            <button [disabled]="PostForm.invalid" type="submit" class="btn btn-info mt-2">Post</button>
         </div>
     </div>
 </form>

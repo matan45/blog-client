@@ -9,11 +9,11 @@
     <p style="overflow: auto;" [innerHTML]="(post|async).description"></p>
     <div class="card-footer text-muted">
         <p *ngIf="(post|async).editDate !== null else create">Edit:
-            {{(post|async).editDate.toLocaleString().slice(0,10)}}
-            {{(post|async).editDate.toLocaleString().slice(11,16)}}</p>
+            {{(post|async).editDate.slice(0,10)}}
+            {{(post|async).editDate.slice(11,16)}}</p>
         <ng-template #create>
-            <p>Created: {{(post|async).createdDate.toLocaleString().slice(0,10)}}
-                {{(post|async).createdDate.toLocaleString().slice(11,16)}}</p>
+            <p>Created: {{(post|async).createdDate.slice(0,10)}}
+                {{(post|async).createdDate.slice(11,16)}}</p>
         </ng-template>
     </div>
 </div>
@@ -24,8 +24,8 @@
     <div class="card border-lime p-2">
 
         <h5>{{temp.userName}}</h5>
-        <p class="text-muted">created: {{temp.createdDate.toLocaleString().slice(0,10)}}
-            {{temp.createdDate.toLocaleString().slice(11,16)}}</p>
+        <p class="text-muted">created: {{temp.createdDate.slice(0,10)}}
+            {{temp.createdDate.slice(11,16)}}</p>
     </div>
     <div class="media-body container-fluid">
         <p class="font-comment">{{temp.text}}</p>

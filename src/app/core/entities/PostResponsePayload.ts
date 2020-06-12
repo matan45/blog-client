@@ -5,7 +5,7 @@ export interface PostResponse {
     userName: string;
     postTitle: string;
     description: string;
-    createdDate: Date;
-    editDate: Date;
+    createdDate: string;
+    editDate: string;
     comments: Comment[];
 }

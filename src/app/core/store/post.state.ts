@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { PostService } from '../post.service';
-import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser, DeletPost } from './post.actions';
+import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser, DeletPost, EditPost } from './post.actions';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class PostStateModel {
         posts: [],
         post: {
             comments: [],
-            createdDate: new Date(),
+            createdDate: '',
             description: '',
             editDate: null,
             postId: '',
@@ -144,4 +144,16 @@ export class PostState {
         });
     }
 
+    @Action(EditPost)
+    editpost(
+        { getState, patchState, dispatch }: StateContext<PostStateModel>,
+        { payload }: EditPost
+    ) {
+        const postid = payload.postId;
+        this.post.editPost(payload).subscribe(() => {
+            this.router.navigateByUrl(`/postView/${postid}`).then(()=>dispatch(new PostById(postid)));
+        }, error => {
+            throwError(error);
+        });
+    }
 }
