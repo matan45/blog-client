@@ -14,11 +14,11 @@
     <div class="form-group row">
         <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
         <div class="col-md-6">
-            <input type="password" id="password" class="form-control" [formControlName]="'password'" name="password"
-                required>
-            <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
-                Password cannot be empty
-            </span>
+            <input type="password" [formControlName]="'password'" id="password" class="form-control" name="password">
+            <div>
+                <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched"
+                    class="help-block">Please enter a valid password</span>
+            </div>
         </div>
     </div>
 

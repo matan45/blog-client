@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { SignUp, Login, LogOut, CheckLogin } from './auth.actions';
+import { SignUp, Login, LogOut, CheckLogin, UserProfile } from './auth.actions';
+import { UserDetails } from '../Entities/UserProfile';
+import { throwError } from 'rxjs';
 
 
 export class AuthStateModel {
     massage: string;
     isLogin: boolean;
     username: string;
+    userProfile: UserDetails;
 }
 
 @State<AuthStateModel>({
@@ -16,7 +19,15 @@ export class AuthStateModel {
     defaults: {
         massage: '',
         isLogin: false,
-        username: ''
+        username: '',
+        userProfile: {
+            username: '',
+            authorities: [],
+            commentsNumber: 0,
+            created: '',
+            email: '',
+            posts: []
+        }
     }
 })
 @Injectable()
@@ -26,6 +37,11 @@ export class AuthState {
     @Selector()
     static getMassage(state: AuthStateModel) {
         return state.massage;
+    }
+
+    @Selector()
+    static getUserProfile(state: AuthStateModel) {
+        return state.userProfile;
     }
 
     @Selector()
@@ -99,6 +115,19 @@ export class AuthState {
         patchState({
             isLogin: this.auth.isLoggedIn(),
             username: this.auth.getUserName()
+        });
+    }
+
+    @Action(UserProfile)
+    userDetails(
+        { getState, patchState }: StateContext<AuthStateModel>
+    ) {
+        this.auth.userProfile().subscribe(data => {
+            patchState({
+                userProfile: data
+            });
+        }, error => {
+            throwError(error);
         });
     }
 }

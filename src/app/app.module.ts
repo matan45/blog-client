@@ -21,6 +21,7 @@ import { EditorModule } from '@tinymce/tinymce-angular'
 import { PostState } from './core/store/post.state';
 import { PostViewComponent } from './core/post-view/post-view.component';
 import { ShortenPipe } from './core/shorten.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ShortenPipe } from './core/shorten.pipe';
     AuthModule,
     NgxsModule.forRoot([PostState]),
     !environment.production ? NgxsReduxDevtoolsPluginModule.forRoot():[] ,
-    !environment.production ? NgxsLoggerPluginModule.forRoot():[]
+    !environment.production ? NgxsLoggerPluginModule.forRoot():[],
+    NgbModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]

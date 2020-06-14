@@ -18,3 +18,7 @@ export class LogOut {
 export class CheckLogin {
   static readonly type = "[Auth]check-Login";
 }
+
+export class UserProfile {
+  static readonly type = "[Auth]user-profile";
+}

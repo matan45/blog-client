@@ -9,6 +9,7 @@ import { RegisterRequest } from './Entities/RegisterRequestPayload';
 import { RefreshTokenPayload } from './Entities/RefreshTokenPayload';
 import { environment } from 'src/environments/environment';
 import { environment as prod } from 'src/environments/environment.prod';
+import { UserDetails } from './Entities/UserProfile';
 
 @Injectable()
 export class AuthService {
@@ -49,6 +50,10 @@ export class AuthService {
 
   register(registerPayload: RegisterRequest): Observable<any> {
     return this.httpClient.post(`${this.serverURL}/api/auth/signup`, registerPayload, { responseType: 'text' });
+  }
+
+  userProfile(): Observable<UserDetails> {
+    return this.httpClient.get<UserDetails>(`${this.serverURL}/api/user/profile`).pipe(map(response => response));
   }
 
   getJwtToken() {

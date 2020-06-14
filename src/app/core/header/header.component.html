@@ -11,11 +11,12 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <div *ngIf="(Login|async) else loading">
-                <li class="nav-item">
-                    <label>{{username |async}}</label>
-                </li>
-                <li class="nav-item">
-                    <button class="btn btn-info" (click)="logout()">Logout</button>
+                <li class="nav-item" ngbDropdown class="float-right">
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <a class="nav-link" routerLink="/user/profile" ngbDropdownItem>Profile</a>
+                        <button (click)="logout()" class="nav-link" ngbDropdownItem>Logout</button>
+                    </div>
+                    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{username |async}}</button>
                 </li>
             </div>
             <ng-template #loading>
@@ -29,3 +30,4 @@
         </ul>
     </div>
 </nav>
+

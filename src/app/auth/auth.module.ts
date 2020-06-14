@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LoginOpt } from "angularx-social-login";
 import { AuthGuard } from './auth.guard';
 import { environment } from 'src/environments/environment';
+import { ProfileComponent } from '../auth/profile/profile.component';
 
 const fbLoginOptions: LoginOpt = {
   scope: 'email',
@@ -29,11 +30,11 @@ const googleLoginOptions: LoginOpt = {
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(environment.GoogleKey,googleLoginOptions)
+    provider: new GoogleLoginProvider("597672953301-ql0dhvginsn7cjcqlsmsvmbr2k1jfb75.apps.googleusercontent.com",googleLoginOptions)
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider(environment.FacebookKey,fbLoginOptions)
+    provider: new FacebookLoginProvider("3046051098811943",fbLoginOptions)
   }
 ]);
 
@@ -44,7 +45,8 @@ export function provideConfig() {
 @NgModule({
   declarations: [
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
