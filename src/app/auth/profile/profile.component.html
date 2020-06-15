@@ -1,8 +1,56 @@
-<p>profile works!</p>
+<h2 class="mb-4">Profile</h2>
 
-<p>{{(user|async).username}}</p>
-<p>{{(user|async).email}}</p>
-<p>{{(user|async).created}}</p>
-<p>{{(user|async).authorities}}</p>
-<p>{{(user|async).posts}}</p>
-<p>{{(user|async).commentsNumber}}</p>
+<table class="table table-hover table-bordered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>User Name</td>
+            <td>{{(user|async).username}}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{(user|async).email}}</td>
+        </tr>
+        <tr>
+            <td>Join</td>
+            <td>{{(user|async).created}}</td>
+        </tr>
+        <tr>
+            <td>Role</td>
+            <td>{{(user|async).authorities}}</td>
+        </tr>
+        <tr>
+            <td>Comments Number</td>
+            <td>{{(user|async).commentsNumber}}</td>
+        </tr>
+        <tr>
+            <td>Actions</td>
+            <td>
+                <button class="btn btn-warning" (click)="edituser()">Edit Account</button>
+                <button class="ml-5 btn btn-danger" (click)="deleteuser()">Delete Account</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<table class="mt-4 table table-hover table-borderless">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Post Title</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let item of (user|async).posts; index as i ">
+        <tr>
+            <th scope="row">{{i+1}}</th>
+            <td><a routerLink="/postView/{{item.postId}}">{{item.postTitle}}</a></td>
+        </tr>
+    </tbody>
+</table>

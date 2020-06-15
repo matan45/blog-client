@@ -22,3 +22,7 @@ export class CheckLogin {
 export class UserProfile {
   static readonly type = "[Auth]user-profile";
 }
+
+export class DeleteUser {
+  static readonly type = "[Auth]user-delete";
+}

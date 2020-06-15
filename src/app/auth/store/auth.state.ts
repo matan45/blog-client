@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { SignUp, Login, LogOut, CheckLogin, UserProfile } from './auth.actions';
+import { SignUp, Login, LogOut, CheckLogin, UserProfile, DeleteUser } from './auth.actions';
 import { UserDetails } from '../Entities/UserProfile';
 import { throwError } from 'rxjs';
 
@@ -129,5 +129,17 @@ export class AuthState {
         }, error => {
             throwError(error);
         });
+    }
+
+    @Action(DeleteUser)
+    deleteuser(
+        { getState, patchState }: StateContext<AuthStateModel>
+    ) {
+
+        this.auth.deletuser();
+        patchState({
+            isLogin: false
+        });
+        this.router.navigate(['/']);
     }
 }

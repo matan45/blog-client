@@ -3,7 +3,7 @@ import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AuthState } from '../store/auth.state';
 import { UserDetails } from '../Entities/UserProfile';
-import { UserProfile } from '../store/auth.actions';
+import { UserProfile, DeleteUser } from '../store/auth.actions';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +16,16 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new UserProfile());
+  }
+
+  deleteuser(){
+    if (confirm("are you sure you want to delete this account?")) {
+      this.store.dispatch(new DeleteUser());
+    }
+  }
+
+  edituser(){
+
   }
 
 }

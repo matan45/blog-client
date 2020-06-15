@@ -95,4 +95,20 @@ export class AuthService {
     this.localStorage.clear('username');
 
   }
+
+  deletuser() {
+    this.httpClient.delete(`${this.serverURL}/api/user/delete`,
+      { responseType: 'text' })
+      .subscribe(data => {
+        console.log(data);
+      }, error => {
+        throwError(error);
+      })
+    this.localStorage.clear('authenticationToken');
+    this.localStorage.clear('email');
+    this.localStorage.clear('refreshToken');
+    this.localStorage.clear('expiresAt');
+    this.localStorage.clear('username');
+
+  }
 }
