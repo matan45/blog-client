@@ -12,6 +12,7 @@ export class AuthStateModel {
     isLogin: boolean;
     username: string;
     userProfile: UserDetails;
+    spanner: boolean;
 }
 
 @State<AuthStateModel>({
@@ -20,6 +21,7 @@ export class AuthStateModel {
         massage: '',
         isLogin: false,
         username: '',
+        spanner: false,
         userProfile: {
             username: '',
             authorities: [],
@@ -37,6 +39,11 @@ export class AuthState {
     @Selector()
     static getMassage(state: AuthStateModel) {
         return state.massage;
+    }
+
+    @Selector()
+    static getSpanner(state: AuthStateModel) {
+        return state.spanner;
     }
 
     @Selector()
@@ -59,16 +66,21 @@ export class AuthState {
         { getState, patchState }: StateContext<AuthStateModel>,
         { payload }: SignUp
     ) {
+        patchState({
+            spanner: true
+        });
         const state = getState();
         state.massage = '';
         this.auth.register(payload).subscribe(data => {
             patchState({
-                massage: data
+                massage: data,
+                spanner: false
             });
             this.router.navigate(['/login']);
         }, error => {
             patchState({
-                massage: error.error
+                massage: error.error,
+                spanner: false
             });
         });
     }
@@ -78,6 +90,9 @@ export class AuthState {
         { getState, patchState }: StateContext<AuthStateModel>,
         { payload }: Login
     ) {
+        patchState({
+            spanner: true
+        });
         const state = getState();
         state.massage = '';
         this.auth.login(payload).subscribe(data => {
@@ -85,13 +100,15 @@ export class AuthState {
                 patchState({
                     massage: "login successful",
                     isLogin: true,
+                    spanner: false,
                     username: this.auth.getUserName()
                 });
                 this.router.navigate(['/']);
             }
         }, error => {
             patchState({
-                massage: error.error
+                massage: error.error,
+                spanner: false
             });
         });
     }
@@ -122,12 +139,19 @@ export class AuthState {
     userDetails(
         { getState, patchState }: StateContext<AuthStateModel>
     ) {
+        patchState({
+            spanner: true
+        });
         this.auth.userProfile().subscribe(data => {
             patchState({
-                userProfile: data
+                userProfile: data,
+                spanner: false
             });
         }, error => {
             throwError(error);
+            patchState({
+                spanner: false
+            });
         });
     }
 

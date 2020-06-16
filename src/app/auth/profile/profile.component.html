@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>Join</td>
-            <td>{{(user|async).created}}</td>
+            <td>{{(user|async).created.slice(0,10)}} {{(user|async).created.slice(11,16)}}</td>
         </tr>
         <tr>
             <td>Role</td>

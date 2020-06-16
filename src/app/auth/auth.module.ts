@@ -13,8 +13,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LoginOpt } from "angularx-social-login";
 import { AuthGuard } from './auth.guard';
-import { environment } from 'src/environments/environment';
 import { ProfileComponent } from '../auth/profile/profile.component';
+import { ToggleDirective } from './Entities/toggle.directive';
+
 
 const fbLoginOptions: LoginOpt = {
   scope: 'email',
@@ -46,7 +47,8 @@ export function provideConfig() {
   declarations: [
     LoginComponent,
     SignupComponent,
-    ProfileComponent
+    ProfileComponent,
+    ToggleDirective
   ],
   imports: [
     CommonModule,

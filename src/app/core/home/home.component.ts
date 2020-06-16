@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PostResponse } from '../entities/PostResponsePayload';
