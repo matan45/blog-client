@@ -15,6 +15,9 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLogi
 import { AuthGuard } from './auth.guard';
 import { ProfileComponent } from '../auth/profile/profile.component';
 import { ToggleDirective } from './Entities/toggle.directive';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+
 
 
 const fbLoginOptions: LoginOpt = {
@@ -48,7 +51,8 @@ export function provideConfig() {
     LoginComponent,
     SignupComponent,
     ProfileComponent,
-    ToggleDirective
+    ToggleDirective,
+    EditProfileComponent
   ],
   imports: [
     CommonModule,

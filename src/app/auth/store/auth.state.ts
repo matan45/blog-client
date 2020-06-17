@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { SignUp, Login, LogOut, CheckLogin, UserProfile, DeleteUser } from './auth.actions';
+import { SignUp, Login, LogOut, CheckLogin, UserProfile, DeleteUser, EditUser } from './auth.actions';
 import { UserDetails } from '../Entities/UserProfile';
 import { throwError } from 'rxjs';
 
@@ -150,6 +150,31 @@ export class AuthState {
         }, error => {
             throwError(error);
             patchState({
+                spanner: false
+            });
+        });
+    }
+
+    @Action(EditUser)
+    editUser(
+        { getState, patchState,dispatch }: StateContext<AuthStateModel>,
+        { payload }: EditUser
+    ) {
+        patchState({
+            spanner: true
+        });
+        const state = getState();
+        state.massage = '';
+        this.auth.editUser(payload).subscribe(data => {
+            patchState({
+                massage: data,
+                username: payload.username,
+                spanner: false
+            });
+            dispatch(new LogOut());
+        }, error => {
+            patchState({
+                massage: error.error,
                 spanner: false
             });
         });

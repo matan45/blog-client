@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthState } from '../store/auth.state';
 import { UserDetails } from '../Entities/UserProfile';
 import { UserProfile, DeleteUser } from '../store/auth.actions';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,10 @@ import { UserProfile, DeleteUser } from '../store/auth.actions';
 })
 export class ProfileComponent implements OnInit {
   @Select(AuthState.getUserProfile) user: Observable<UserDetails>;
-  constructor(private store: Store) { }
+
+  constructor(private store: Store,config: NgbModalConfig,private modalService: NgbModal) {
+    config.backdrop = 'static';
+   }
 
   ngOnInit(): void {
     this.store.dispatch(new UserProfile());
@@ -24,8 +28,8 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  edituser(){
-
+  open(content) {
+    this.modalService.open(content);
   }
 
 }

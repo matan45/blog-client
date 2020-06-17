@@ -10,6 +10,7 @@ import { RefreshTokenPayload } from './Entities/RefreshTokenPayload';
 import { environment } from 'src/environments/environment';
 import { environment as prod } from 'src/environments/environment.prod';
 import { UserDetails } from './Entities/UserProfile';
+import { EditUserRequest } from './Entities/EditUserPayload';
 
 @Injectable()
 export class AuthService {
@@ -50,6 +51,10 @@ export class AuthService {
 
   register(registerPayload: RegisterRequest): Observable<any> {
     return this.httpClient.post(`${this.serverURL}/api/auth/signup`, registerPayload, { responseType: 'text' });
+  }
+
+  editUser(editUserPayload: EditUserRequest): Observable<any> {
+    return this.httpClient.put(`${this.serverURL}/api/user/profile/edit`, editUserPayload, { responseType: 'text' });
   }
 
   userProfile(): Observable<UserDetails> {
