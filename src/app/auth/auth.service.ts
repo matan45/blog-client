@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 import { environment as prod } from 'src/environments/environment.prod';
 import { UserDetails } from './Entities/UserProfile';
 import { EditUserRequest } from './Entities/EditUserPayload';
+import { Store } from '@ngxs/store';
+import { UserProfile, CheckLogin } from './store/auth.actions';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +24,7 @@ export class AuthService {
     email: this.getEmail()
   };
 
-  constructor(private httpClient: HttpClient, private localStorage: LocalStorageService) { }
+  constructor(private httpClient: HttpClient,private store: Store, private localStorage: LocalStorageService) { }
 
   login(loginRequestPayload: LoginRequest): Observable<boolean> {
     return this.httpClient.post<LoginResponse>(`${this.serverURL}/api/auth/login`, loginRequestPayload)
@@ -53,8 +55,24 @@ export class AuthService {
     return this.httpClient.post(`${this.serverURL}/api/auth/signup`, registerPayload, { responseType: 'text' });
   }
 
-  editUser(editUserPayload: EditUserRequest): Observable<any> {
-    return this.httpClient.put(`${this.serverURL}/api/user/profile/edit`, editUserPayload, { responseType: 'text' });
+  editUser(editUserPayload: EditUserRequest) {
+    editUserPayload.refreshToken=this.getRefreshToken();
+    this.httpClient.put<LoginResponse>(`${this.serverURL}/api/user/profile/edit`, editUserPayload).subscribe(data => {
+      this.refreshTokenPayload = {
+        refreshToken: data.refreshToken,
+        email: data.email
+      };
+      this.localStorage.store('authenticationToken', data.authenticationToken);
+      this.localStorage.store('email', data.email);
+      this.localStorage.store('refreshToken', data.refreshToken);
+      this.localStorage.store('expiresAt', data.expiresAt);
+      this.localStorage.store('username', data.username);
+      this.store.dispatch(new UserProfile());
+      this.store.dispatch(new CheckLogin());
+    },error=>{
+      throwError(error);;
+    });
+
   }
 
   userProfile(): Observable<UserDetails> {

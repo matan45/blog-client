@@ -2,18 +2,25 @@
 
 
 <div class="container-fluid" *ngFor="let temp of (posts|async)">
-    <div class="card card-background mb-3">
-        <div class="card-header">
-            <p *ngIf="temp.editDate !== null else create">Edit: {{temp.editDate.slice(0,10)}} {{temp.editDate.slice(11,16)}}</p>
+    <section class="card card-background mb-3">
+        <div class="card-body">
+            <h5 class="card-title" >{{temp.postTitle}}</h5>
+            <div class="row container">
+                <h6 class="card-subtitle text-muted"><i class="fa fa-user" aria-hidden="true"></i> : {{temp.userName}}</h6>
+                <h6 class="card-subtitle text-muted ml-2" *ngIf="temp.comments !== null" ><i class="fa fa-comments" aria-hidden="true"></i>: {{temp.comments.length}}</h6>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <p class="card-text" [innerHTML]="temp.description | shorten: 200"></p>
+            <a class="buttonLink" routerLink="/postView/{{temp.postId}}">Read More</a>
+        </div>
+        <blockquote class="blockquote-footer">
+            <p *ngIf="temp.editDate !== null else create">Edit: {{temp.editDate.slice(0,10)}}
+                {{temp.editDate.slice(11,16)}}</p>
             <ng-template #create>
                 <p>Created: {{temp.createdDate.slice(0,10)}} {{temp.createdDate.slice(11,16)}}</p>
             </ng-template>
-        </div>
-        <div class="card-body">
-            <a class="card-title h4" routerLink="/postView/{{temp.postId}}">{{temp.postTitle}}</a>
-            <hr>
-            <p class="card-text ml-2 mt-2" [innerHTML]="temp.description | shorten: 100"></p>
-        </div>
-        <p class="card-footer card-muted">Created By: {{temp.userName}}</p>
-    </div>
+        </blockquote>
+    </section>
 </div>

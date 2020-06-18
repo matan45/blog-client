@@ -15,10 +15,9 @@ import { CustomValidators } from './custom-validators';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit,OnDestroy {
+export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   signupRequestPayload: RegisterRequest;
-  subscription:Subscription;
   @Select(AuthState.getMassage) Massage: Observable<string>;
 
 
@@ -31,7 +30,6 @@ export class SignupComponent implements OnInit,OnDestroy {
     }
   }
   
-
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -75,7 +73,7 @@ export class SignupComponent implements OnInit,OnDestroy {
 
   signup() {
     this.store.dispatch(new SignUp(this.signupRequestPayload));
-    this.subscription.add(this.Massage.subscribe(data => {
+    this.Massage.subscribe(data => {
       if (data.length > 1) {
         if (data.indexOf('ERROR') !== -1) {
           this.toastr.error(data);
@@ -83,7 +81,7 @@ export class SignupComponent implements OnInit,OnDestroy {
           this.toastr.success(data);
         }
       }
-    }));
+    });
   }
 
   public socialSignIn(socialProvider: string) {
@@ -108,8 +106,5 @@ export class SignupComponent implements OnInit,OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
+  
 }

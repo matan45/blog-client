@@ -14,20 +14,20 @@ import { EditUserRequest } from '../Entities/EditUserPayload';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent implements OnInit,OnDestroy {
+export class EditProfileComponent implements OnInit {
 
   @Input() userDetails:UserDetails;
   @Output() close = new EventEmitter<boolean>();
   registerForm: FormGroup;
   EdituserPayload: EditUserRequest;
-  subscription:Subscription;
   @Select(AuthState.getMassage) Massage: Observable<string>;
 
   constructor(private store: Store, private toastr: ToastrService,private formBuilder: FormBuilder) {
     this.EdituserPayload = {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      refreshToken: ''
     }
    }
   
@@ -71,20 +71,17 @@ export class EditProfileComponent implements OnInit,OnDestroy {
     this.close.emit(true);
     this.store.dispatch(new EditUser(this.EdituserPayload));
 
-    this.subscription.add(this.Massage.subscribe(data => {
+    this.Massage.subscribe(data => {
       if (data.length > 1) {
         if (data.indexOf('ERROR') !== -1) {
           this.toastr.error(data);
         } else {
-          this.toastr.success(data +" you need to Relog in order the effect to take place");
+          this.toastr.success(data);
         }
       }
-    }));
+    });
 
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
+ 
 }

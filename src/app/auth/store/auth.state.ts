@@ -157,7 +157,7 @@ export class AuthState {
 
     @Action(EditUser)
     editUser(
-        { getState, patchState,dispatch }: StateContext<AuthStateModel>,
+        { getState, patchState, dispatch }: StateContext<AuthStateModel>,
         { payload }: EditUser
     ) {
         patchState({
@@ -165,19 +165,12 @@ export class AuthState {
         });
         const state = getState();
         state.massage = '';
-        this.auth.editUser(payload).subscribe(data => {
-            patchState({
-                massage: data,
-                username: payload.username,
-                spanner: false
-            });
-            dispatch(new LogOut());
-        }, error => {
-            patchState({
-                massage: error.error,
-                spanner: false
-            });
+        this.auth.editUser(payload);
+        patchState({
+            massage: "Edit user Successfully!!",
+            spanner: false
         });
+
     }
 
     @Action(DeleteUser)

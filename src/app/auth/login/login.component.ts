@@ -13,10 +13,9 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit,OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginRequestPayload: LoginRequest;
-  subscription:Subscription;
   @Select(AuthState.getMassage) Massage: Observable<string>;
 
   constructor(private store: Store, private toastr: ToastrService, private authService: AuthService) {
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 
   sendlogin() {
     this.store.dispatch(new Login(this.loginRequestPayload));
-    this.subscription.add(this.Massage.subscribe(data => {
+    this.Massage.subscribe(data => {
       if (data.length > 1) {
         if (data.indexOf('ERROR') !== -1) {
           this.toastr.error(data);
@@ -50,7 +49,7 @@ export class LoginComponent implements OnInit,OnDestroy {
           this.toastr.info(data);
         }
       }
-    }));
+    });
   }
 
   public socialLogIn(socialProvider: string) {
@@ -73,7 +72,5 @@ export class LoginComponent implements OnInit,OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+ 
 }
