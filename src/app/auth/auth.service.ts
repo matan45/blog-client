@@ -13,6 +13,7 @@ import { UserDetails } from './Entities/UserProfile';
 import { EditUserRequest } from './Entities/EditUserPayload';
 import { Store } from '@ngxs/store';
 import { UserProfile, CheckLogin } from './store/auth.actions';
+import { PostLogOut } from '../core/store/post.actions';
 
 @Injectable()
 export class AuthService {
@@ -110,12 +111,13 @@ export class AuthService {
         console.log(data);
       }, error => {
         throwError(error);
-      })
+      });
     this.localStorage.clear('authenticationToken');
     this.localStorage.clear('email');
     this.localStorage.clear('refreshToken');
     this.localStorage.clear('expiresAt');
     this.localStorage.clear('username');
+    this.store.dispatch(new PostLogOut());
 
   }
 

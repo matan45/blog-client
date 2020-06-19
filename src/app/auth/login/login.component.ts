@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginRequestPayload: LoginRequest;
   @Select(AuthState.getMassage) Massage: Observable<string>;
+  @Select(AuthState.getSpanner) spinner: Observable<boolean>;
 
   constructor(private store: Store, private toastr: ToastrService, private authService: AuthService) {
     this.loginRequestPayload = {

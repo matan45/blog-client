@@ -12,6 +12,7 @@ import { FetchPosts } from '../store/post.actions';
 })
 export class HomeComponent implements OnInit {
   @Select(PostState.getPosts) posts: Observable<PostResponse[]>;
+  @Select(PostState.getMassage) massage: Observable<string>;
   page: number = 0;
 
   constructor(private store: Store) { }
@@ -22,10 +23,14 @@ export class HomeComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-      this.store.dispatch(new FetchPosts(++this.page));
-      window.scrollTo(0,window.screen.availHeight);
-    }
+    this.massage.subscribe(data=>{
+      if(data !== 'No More Posts'){
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+          this.store.dispatch(new FetchPosts(++this.page));
+          window.scrollTo(0,window.screen.availHeight);
+        }
+      }
+    });
   }
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { PostService } from '../post.service';
-import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser, DeletPost, EditPost } from './post.actions';
+import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser, DeletPost, EditPost, PostLogOut } from './post.actions';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ export class PostStateModel {
     posts: PostResponse[];
     post: PostResponse;
     isCreatedByUser: boolean;
+    massage: String;
 }
 
 @State<PostStateModel>({
@@ -26,7 +27,8 @@ export class PostStateModel {
             postTitle: '',
             userName: ''
         },
-        isCreatedByUser: false
+        isCreatedByUser: false,
+        massage: ''
     }
 
 })
@@ -51,6 +53,11 @@ export class PostState {
         return state.post;
     }
 
+    @Selector()
+    static getMassage(state: PostStateModel) {
+        return state.massage;
+    }
+
     @Action(CreatePost)
     Postcreate(
         { getState, patchState, dispatch }: StateContext<PostStateModel>,
@@ -73,17 +80,25 @@ export class PostState {
         if (payload == 0) {
             getState().posts = [];
         }
-
+        patchState({
+            massage: 'Loading..'
+        });
         this.post.fetchposts(payload).subscribe(data => {
             if (data.length > 0 && getState().posts.length > 0) {
                 const currentpost: PostResponse[] = getState().posts;
                 patchState({
-                    posts: currentpost.concat(data).reverse()
+                    posts: currentpost.concat(data).reverse(),
+                    massage: ''
                 });
             } else if (data.length > 0 && getState().posts.length === 0) {
                 patchState({
-                    posts: data.reverse()
+                    posts: data.reverse(),
+                    massage: ''
                 });
+            } else {
+                patchState({
+                    massage: 'No More Posts'
+                })
             }
         });
     }
@@ -151,9 +166,20 @@ export class PostState {
     ) {
         const postid = payload.postId;
         this.post.editPost(payload).subscribe(() => {
-            this.router.navigateByUrl(`/postView/${postid}`).then(()=>dispatch(new PostById(postid)));
+            this.router.navigateByUrl(`/postView/${postid}`).then(() => dispatch(new PostById(postid)));
         }, error => {
             throwError(error);
         });
+    }
+
+    @Action(PostLogOut)
+    logout(
+        { getState, patchState }: StateContext<PostStateModel>
+    ) {
+
+        patchState({
+            isCreatedByUser: false
+        });
+
     }
 }

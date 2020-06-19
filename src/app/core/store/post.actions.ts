@@ -36,3 +36,7 @@ export class EditPost {
     static readonly type = "[Post]edit-post";
     constructor(public payload: EditPostPayload) { }
 }
+
+export class PostLogOut {
+    static readonly type = "[Post]logout-post";
+}

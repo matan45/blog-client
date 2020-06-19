@@ -21,6 +21,7 @@ export class EditProfileComponent implements OnInit {
   registerForm: FormGroup;
   EdituserPayload: EditUserRequest;
   @Select(AuthState.getMassage) Massage: Observable<string>;
+  
 
   constructor(private store: Store, private toastr: ToastrService,private formBuilder: FormBuilder) {
     this.EdituserPayload = {

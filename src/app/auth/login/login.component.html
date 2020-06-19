@@ -1,42 +1,53 @@
-<h2 class="mb-2">Login</h2>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
-    <div class="form-group row">
-        <label for="email" class="col-md-4 col-form-label text-md-right">Email <i class="fa fa-envelope" aria-hidden="true"></i></label>
-        <div class="col-md-6">
-            <input type="text" id="email" class="form-control" [formControlName]="'email'" name="email" required
-                autofocus>
-            <span *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
-                Please provide a valid email
-            </span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="password" class="col-md-4 col-form-label text-md-right">Password <i class="fa fa-key" aria-hidden="true"></i></label>
-        <div class="col-md-6">
-            <input toggle type="password" [formControlName]="'password'" id="password" class="form-control" name="password" required>
-            <div>
-                <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched"
-                    class="help-block">Please enter a valid password</span>
+<div *ngIf="!(spinner |async) else loading">
+    <h2 class="mb-2">Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="form-group row">
+            <label for="email" class="col-md-4 col-form-label text-md-right">Email <i class="fa fa-envelope"
+                    aria-hidden="true"></i></label>
+            <div class="col-md-6">
+                <input type="text" id="email" class="form-control" [formControlName]="'email'" name="email" required
+                    autofocus>
+                <span *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
+                    Please provide a valid email
+                </span>
             </div>
         </div>
-    </div>
 
-    <span class="col-md-6 offset-md-4">
-        <button [disabled]="loginForm.invalid" type="submit" class="btn btn-info">Login</button>
-        <span style="padding-left: 15px">New to Blog? <a routerLink="/signup">SIGN UP</a></span>
-    </span>
-</form>
+        <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label text-md-right">Password <i class="fa fa-key"
+                    aria-hidden="true"></i></label>
+            <div class="col-md-6">
+                <input toggle type="password" [formControlName]="'password'" id="password" class="form-control"
+                    name="password" required>
+                <div>
+                    <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched"
+                        class="help-block">Please enter a valid password</span>
+                </div>
+            </div>
+        </div>
 
-<div class="form-group row mt-3">
-    <div class="col-md-6 text-md-right">
-        <button (click)="socialLogIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
-            Facebook
-        </button>
-    </div>
-    <div class="col-md-2 text-md-right">
-        <button (click)="socialLogIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
-            Google
-        </button>
+        <span class="col-md-6 offset-md-4">
+            <button [disabled]="loginForm.invalid" type="submit" class="btn btn-info">Login</button>
+            <span style="padding-left: 15px">New to Blog? <a routerLink="/signup">SIGN UP</a></span>
+        </span>
+    </form>
+
+    <div class="form-group row mt-3">
+        <div class="col-md-6 text-md-right">
+            <button (click)="socialLogIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
+                Facebook
+            </button>
+        </div>
+        <div class="col-md-2 text-md-right">
+            <button (click)="socialLogIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
+                Google
+            </button>
+        </div>
     </div>
 </div>
+
+<ng-template #loading>
+    <div class="centered">
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
+</ng-template>

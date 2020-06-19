@@ -13,6 +13,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProfileComponent implements OnInit {
   @Select(AuthState.getUserProfile) user: Observable<UserDetails>;
+  @Select(AuthState.getSpanner) spinner: Observable<boolean>;
 
   constructor(private store: Store,config: NgbModalConfig,private modalService: NgbModal) {
     config.backdrop = 'static';

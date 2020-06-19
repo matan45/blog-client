@@ -1,70 +1,78 @@
-<h2 class="mb-4">Profile</h2>
+<div *ngIf="!(spinner |async) else loading">
+    <h2 class="mb-4">Profile</h2>
 
-<table class="table table-hover table-bordered table-dark">
-    <thead>
-        <tr>
-            <th scope="col">Field</th>
-            <th scope="col">Info</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>User Name</td>
-            <td>{{(user|async).username}}</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>{{(user|async).email}}</td>
-        </tr>
-        <tr>
-            <td>Join</td>
-            <td>{{(user|async).created.slice(0,10)}} {{(user|async).created.slice(11,16)}}</td>
-        </tr>
-        <tr>
-            <td>Role</td>
-            <td>{{(user|async).authorities}}</td>
-        </tr>
-        <tr>
-            <td>Comments Number</td>
-            <td>{{(user|async).commentsNumber}}</td>
-        </tr>
-        <tr>
-            <td>Actions</td>
-            <td>
-                <button class="btn btn-warning" (click)="open(content)">Edit Account</button>
-                <button class="ml-5 btn btn-danger" (click)="deleteuser()">Delete Account</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table table-hover table-bordered table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>User Name</td>
+                <td>{{(user|async).username}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{(user|async).email}}</td>
+            </tr>
+            <tr>
+                <td>Join</td>
+                <td>{{(user|async).created.slice(0,10)}} {{(user|async).created.slice(11,16)}}</td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>{{(user|async).authorities}}</td>
+            </tr>
+            <tr>
+                <td>Comments Number</td>
+                <td>{{(user|async).commentsNumber}}</td>
+            </tr>
+            <tr>
+                <td>Actions</td>
+                <td>
+                    <button class="btn btn-warning" (click)="open(content)">Edit Account</button>
+                    <button class="ml-5 btn btn-danger" (click)="deleteuser()">Delete Account</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 
 
-<table class="mt-4 table table-hover table-borderless">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Post Title</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let item of (user|async).posts; index as i ">
-        <tr>
-            <th scope="row">{{i+1}}</th>
-            <td><a routerLink="/postView/{{item.postId}}">{{item.postTitle}}</a></td>
-        </tr>
-    </tbody>
-</table>
+    <table class="mt-4 table table-hover table-borderless" *ngIf="(user|async).posts.length > 0">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Post Title</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of (user|async).posts; index as i ">
+            <tr>
+                <th scope="row">{{i+1}}</th>
+                <td><a routerLink="/postView/{{item.postId}}">{{item.postTitle}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #loading>
+    <div class="centered">
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
+</ng-template>
 
 
 
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Edit Profile</h4>
-      <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <h4 class="modal-title" id="modal-basic-title">Edit Profile</h4>
+        <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <app-edit-profile (close)="d('Cross click')" [userDetails]="(user|async)"></app-edit-profile>
     </div>
-  </ng-template>
+</ng-template>
