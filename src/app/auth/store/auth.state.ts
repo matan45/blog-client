@@ -120,7 +120,8 @@ export class AuthState {
 
         this.auth.logout();
         patchState({
-            isLogin: false
+            isLogin: false,
+            userProfile: null
         });
         this.router.navigate(['/']);
     }
@@ -180,7 +181,8 @@ export class AuthState {
 
         this.auth.deletuser();
         patchState({
-            isLogin: false
+            isLogin: false,
+            userProfile: null
         });
         this.router.navigate(['/']);
     }

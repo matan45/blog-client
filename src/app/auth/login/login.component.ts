@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Login } from '../store/auth.actions';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
 
   sendlogin() {
     this.store.dispatch(new Login(this.loginRequestPayload));
-    this.Massage.subscribe(data => {
+    this.Massage.pipe(take(2)).subscribe(data => {
       if (data.length > 1) {
         if (data.indexOf('ERROR') !== -1) {
           this.toastr.error(data);

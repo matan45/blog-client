@@ -1,104 +1,118 @@
-<h2 class="mb-2">Sign Up</h2>
-<form [formGroup]="registerForm" (ngSubmit)="registerUser()">
-    <div class="form-group row">
-        <label for="email" class="col-md-4 col-form-label text-md-right">Email <i class="fa fa-envelope" aria-hidden="true"></i></label>
-        <div class="col-md-6">
-            <input type="text" [formControlName]="'email'" id="email" class="form-control" name="email">
-            <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('required')">
-                Email is Required!
-            </label>
-            <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
-                Enter a valid email address!
-            </label>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="col-md-4 col-form-label text-md-right">User Name <i class="fa fa-user" aria-hidden="true"></i></label>
-        <div class="col-md-6">
-            <input type="text" [formControlName]="'username'" class="form-control">
-            <label class="text-danger" *ngIf="registerForm.controls['username'].hasError('required')">
-                User Name is Required!
-            </label>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="password" class="col-md-4 col-form-label text-md-right">Password <i class="fa fa-key" aria-hidden="true"></i></label>
-        <div class="col-md-6">
-            <input toggle type="password" [formControlName]="'password'" id="password" class="form-control" name="password">
-            <div>
-                <label class="col"
-                    [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('minlength')  ? 'text-danger' : 'text-success'">
-                    <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
-                        registerForm.controls['password'].hasError('minlength') ? 'cancel' :
-                      'check_circle' }}</i>
-                    Must be at least 8 characters!
+<div *ngIf="!(spinner |async) else loading">
+    <h2 class="mb-2">Sign Up</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+        <div class="form-group row">
+            <label for="email" class="col-md-4 col-form-label text-md-right">Email <i class="fa fa-envelope"
+                    aria-hidden="true"></i></label>
+            <div class="col-md-6">
+                <input type="text" [formControlName]="'email'" id="email" class="form-control" name="email">
+                <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('required')">
+                    Email is Required!
                 </label>
-                <label class="col"
-                    [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-success'">
-                    <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
-                        registerForm.controls['password'].hasError('hasNumber') ? 'cancel' :
-                      'check_circle' }}</i>
-                    Must contain at least 1 number!
-                </label>
-                <label class="col"
-                    [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-                    <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
-                        registerForm.controls['password'].hasError('hasCapitalCase') ? 'cancel' :
-                      'check_circle' }}</i>
-                    Must contain at least 1 in Capital Case!
-                </label>
-                <label class="col"
-                    [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
-                    <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
-                        registerForm.controls['password'].hasError('hasSmallCase') ? 'cancel' :
-                      'check_circle' }}</i>
-                    Must contain at least 1 Letter in Small Case!
-                </label>
-                <label class="col"
-                    [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
-                    <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
-                        registerForm.controls['password'].hasError('hasSpecialCharacters') ? 'cancel' :
-                      'check_circle' }}</i>
-                    Must contain at least 1 Special Character!
+                <label class="text-danger" *ngIf="registerForm.controls['email'].hasError('email')">
+                    Enter a valid email address!
                 </label>
             </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="confirmPassword" class="col-md-4 col-form-label text-md-right"
-            [ngClass]="registerForm.controls['confirmPassword'].invalid ? 'text-danger' : ''">Confirm
-            Password <i class="fa fa-key" aria-hidden="true"></i></label>
-        <div class="col-md-6">
-            <input toggle id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control"
-                [ngClass]="registerForm.controls['confirmPassword'].invalid ? 'is-invalid' : ''">
-            <label class="col text-danger" *ngIf="registerForm.controls['confirmPassword'].hasError('required')">
-                Password is Required!
-            </label>
-            <label class="col text-danger" *ngIf="registerForm.controls['confirmPassword'].hasError('NoPassswordMatch')">
-                Password do not match
-            </label>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label text-md-right">User Name <i class="fa fa-user"
+                    aria-hidden="true"></i></label>
+            <div class="col-md-6">
+                <input type="text" [formControlName]="'username'" class="form-control">
+                <label class="text-danger" *ngIf="registerForm.controls['username'].hasError('required')">
+                    User Name is Required!
+                </label>
+            </div>
+        </div>
 
+        <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label text-md-right">Password <i class="fa fa-key"
+                    aria-hidden="true"></i></label>
+            <div class="col-md-6">
+                <input toggle type="password" [formControlName]="'password'" id="password" class="form-control"
+                    name="password">
+                <div>
+                    <label class="col"
+                        [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('minlength')  ? 'text-danger' : 'text-success'">
+                        <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
+                        registerForm.controls['password'].hasError('minlength') ? 'cancel' :
+                      'check_circle' }}</i>
+                        Must be at least 8 characters!
+                    </label>
+                    <label class="col"
+                        [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                        <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
+                        registerForm.controls['password'].hasError('hasNumber') ? 'cancel' :
+                      'check_circle' }}</i>
+                        Must contain at least 1 number!
+                    </label>
+                    <label class="col"
+                        [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+                        <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
+                        registerForm.controls['password'].hasError('hasCapitalCase') ? 'cancel' :
+                      'check_circle' }}</i>
+                        Must contain at least 1 in Capital Case!
+                    </label>
+                    <label class="col"
+                        [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                        <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
+                        registerForm.controls['password'].hasError('hasSmallCase') ? 'cancel' :
+                      'check_circle' }}</i>
+                        Must contain at least 1 Letter in Small Case!
+                    </label>
+                    <label class="col"
+                        [ngClass]="registerForm.controls['password'].hasError('required') || registerForm.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                        <i class="material-icons">{{ registerForm.controls['password'].hasError('required') ||
+                        registerForm.controls['password'].hasError('hasSpecialCharacters') ? 'cancel' :
+                      'check_circle' }}</i>
+                        Must contain at least 1 Special Character!
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="confirmPassword" class="col-md-4 col-form-label text-md-right"
+                [ngClass]="registerForm.controls['confirmPassword'].invalid ? 'text-danger' : ''">Confirm
+                Password <i class="fa fa-key" aria-hidden="true"></i></label>
+            <div class="col-md-6">
+                <input toggle id="confirmPassword" formControlName="confirmPassword" type="password"
+                    class="form-control"
+                    [ngClass]="registerForm.controls['confirmPassword'].invalid ? 'is-invalid' : ''">
+                <label class="col text-danger" *ngIf="registerForm.controls['confirmPassword'].hasError('required')">
+                    Password is Required!
+                </label>
+                <label class="col text-danger"
+                    *ngIf="registerForm.controls['confirmPassword'].hasError('NoPassswordMatch')">
+                    Password do not match
+                </label>
+
+            </div>
+        </div>
+
+        <span class="col-md-6 offset-md-4">
+            <button [disabled]="registerForm.invalid" type="submit" class="btn btn-info">Sign Up</button>
+            <span style="padding-left: 15px">Existing user? <a routerLink="/login">Log In</a></span>
+        </span>
+    </form>
+
+    <div class="form-group row mt-3">
+        <div class="col-md-6 text-md-right">
+            <button (click)="socialSignIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
+                Facebook
+            </button>
+        </div>
+        <div class="col-md-2  text-md-right">
+            <button (click)="socialSignIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
+                Google
+            </button>
         </div>
     </div>
-
-    <span class="col-md-6 offset-md-4">
-        <button [disabled]="registerForm.invalid" type="submit" class="btn btn-info">Sign Up</button>
-        <span style="padding-left: 15px">Existing user? <a routerLink="/login">Log In</a></span>
-    </span>
-</form>
-
-<div class="form-group row mt-3">
-    <div class="col-md-6 text-md-right">
-        <button (click)="socialSignIn('facebook')" class="btn btn-facebook"><i class="fab fa-facebook-f pr-1"></i>
-            Facebook
-        </button>
-    </div>
-    <div class="col-md-2  text-md-right">
-        <button (click)="socialSignIn('google')" class="btn btn-google"><i class="fab fa-google pr-1"></i>
-            Google
-        </button>
-    </div>
 </div>
+
+<ng-template #loading>
+    <div class="centered">
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
+</ng-template>

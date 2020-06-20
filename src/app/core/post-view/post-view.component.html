@@ -1,22 +1,29 @@
 <div class="container-fluid card border-purple">
-    <h2>{{(post|async).postTitle}}</h2>
-    <h6 class="lead ml-3">By: {{(post|async).userName}}</h6>
-    <div *ngIf="(isEdit|async)" class="ml-sm-auto">
-        <a class="btn btn-warning mr-2" routerLink="/post/edit/{{(post|async).postId}}">Edit</a>
-        <button class="btn btn-danger" (click)="deletepost()">Delete</button>
-    </div>
-    <hr>
-    <p style="overflow: auto;" [innerHTML]="(post|async).description"></p>
-    <div class="card-footer text-muted">
-        <p *ngIf="(post|async).editDate !== null else create">Edit:
+    <h2 class="card-title text-center" style="font-weight: 100;">{{(post|async).postTitle}}</h2>
+    <h6 class="card-subtitle text-muted ml-3"><i class="fa fa-user" aria-hidden="true"></i> : {{(post|async).userName}}</h6>
+    
+    <div class="card-subtitle ml-2 mt-2">
+        <p *ngIf="(post|async).editDate !== null else create"><i class="fas fa-clock ml-2" aria-hidden="true"></i> :
             {{(post|async).editDate.slice(0,10)}}
             {{(post|async).editDate.slice(11,16)}}</p>
         <ng-template #create>
-            <p>Created: {{(post|async).createdDate.slice(0,10)}}
+            <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{(post|async).createdDate.slice(0,10)}}
                 {{(post|async).createdDate.slice(11,16)}}</p>
         </ng-template>
     </div>
+
+    <div *ngIf="(isEdit|async)" class="ml-sm-auto mb-2">
+        <a class="btn btn-warning mr-2" routerLink="/post/edit/{{(post|async).postId}}">Edit</a>
+        <button class="btn btn-danger" (click)="deletepost()">Delete</button>
+    </div>
+    <hr class="line">
+
+    <div class="container mt-2">
+        <p [innerHTML]="(post|async).description"></p>
+    </div>
 </div>
+
+
 
 
 <h4 class="lead mt-4">Comments:</h4>
@@ -24,8 +31,8 @@
     <div class="card border-lime p-2">
 
         <h5>{{temp.userName}}</h5>
-        <p class="text-muted">created: {{temp.createdDate.slice(0,10)}}
-            {{temp.createdDate.slice(11,16)}}</p>
+        <small class="text-muted"  ><i class="fas fa-clock ml-2" style="color: blue;" aria-hidden="true"></i> : {{temp.createdDate.slice(0,10)}}
+            {{temp.createdDate.slice(11,16)}}</small>
     </div>
     <div class="media-body container-fluid">
         <p class="font-comment">{{temp.text}}</p>

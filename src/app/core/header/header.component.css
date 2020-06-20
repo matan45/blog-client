@@ -1,0 +1,11 @@
+.navbar{
+    border-bottom: #008ed6 3px solid ;
+    opacity: 0.8;
+}
+
+a:hover{
+    color:yellowgreen !important;
+}
+a:focus{
+    color: blueviolet !important;
+}

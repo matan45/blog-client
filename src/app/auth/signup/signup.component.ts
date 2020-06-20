@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import * as moment from 'moment';
 import { CustomValidators } from './custom-validators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -19,6 +20,7 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   signupRequestPayload: RegisterRequest;
   @Select(AuthState.getMassage) Massage: Observable<string>;
+  @Select(AuthState.getSpanner) spinner: Observable<boolean>;
 
 
   constructor(private store: Store, private toastr: ToastrService, private authService: AuthService, private formBuilder: FormBuilder) {
@@ -73,7 +75,7 @@ export class SignupComponent implements OnInit {
 
   signup() {
     this.store.dispatch(new SignUp(this.signupRequestPayload));
-    this.Massage.subscribe(data => {
+    this.Massage.pipe(take(2)).subscribe(data => {
       if (data.length > 1) {
         if (data.indexOf('ERROR') !== -1) {
           this.toastr.error(data);
