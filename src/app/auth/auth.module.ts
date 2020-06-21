@@ -15,7 +15,7 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLogi
 import { AuthGuard } from './auth.guard';
 import { ProfileComponent } from '../auth/profile/profile.component';
 import { ToggleDirective } from './Entities/toggle.directive';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
@@ -62,6 +62,7 @@ export function provideConfig() {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     SocialLoginModule,
+    RecaptchaV3Module,
     NgxsModule.forFeature([AuthState]),
     NgxWebstorageModule.forRoot(),
     ToastrModule.forRoot()
@@ -73,6 +74,7 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig
     },
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LdkcKcZAAAAABH4GT-4R_WCI-Zi8T_0_G-j-IMB' },
     AuthState
   ]
 })

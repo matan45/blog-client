@@ -22,6 +22,7 @@ import { PostState } from './core/store/post.state';
 import { PostViewComponent } from './core/post-view/post-view.component';
 import { ShortenPipe } from './core/shorten.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,

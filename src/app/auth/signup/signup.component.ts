@@ -10,6 +10,7 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
 import * as moment from 'moment';
 import { CustomValidators } from './custom-validators';
 import { take } from 'rxjs/operators';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-signup',
@@ -21,14 +22,16 @@ export class SignupComponent implements OnInit {
   signupRequestPayload: RegisterRequest;
   @Select(AuthState.getMassage) Massage: Observable<string>;
   @Select(AuthState.getSpanner) spinner: Observable<boolean>;
+  token:string;
 
 
-  constructor(private store: Store, private toastr: ToastrService, private authService: AuthService, private formBuilder: FormBuilder) {
+  constructor(private store: Store, private toastr: ToastrService, private authService: AuthService,private recaptchaV3Service: ReCaptchaV3Service, private formBuilder: FormBuilder) {
     this.signupRequestPayload = {
       username: '',
       email: '',
       password: '',
-      created: ''
+      created: '',
+      token:''
     }
   }
   
@@ -70,7 +73,11 @@ export class SignupComponent implements OnInit {
     this.signupRequestPayload.username = this.registerForm.get('username').value;
     this.signupRequestPayload.password = this.registerForm.get('password').value;
     this.signupRequestPayload.created = moment().format().toString();
-    this.signup();
+    this.recaptchaV3Service.execute('recaptcha')
+      .subscribe(data => {
+        this.signupRequestPayload.token=data;
+        this.signup();
+      });
   }
 
   signup() {
@@ -99,7 +106,8 @@ export class SignupComponent implements OnInit {
           username: socialusers.name,
           email: socialusers.email,
           password: socialusers.name,
-          created: moment().format().toString()
+          created: moment().format().toString(),
+          token:''
         };
         this.signup();
       }

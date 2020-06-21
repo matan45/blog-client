@@ -1,29 +1,35 @@
 <h2 class="lead mb-4">Posts</h2>
 
-
-<div class="container-fluid" *ngFor="let temp of (posts|async)">
-    <section id="slider" class="card card-background mb-3">
-        <div class="card-body">
-            <h5 class="card-title" >{{temp.postTitle}}</h5>
-            <div class="row container">
-                <h6 class="card-subtitle text-muted"><i class="fa fa-user" aria-hidden="true"></i> : {{temp.userName}}</h6>
-                <h6 class="card-subtitle text-muted ml-2" *ngIf="temp.comments !== null" ><i class="fa fa-comments" aria-hidden="true"></i> : {{temp.comments.length}}</h6>
+<div [@listAnimation]="showlist.length" >
+    <div class="container-fluid" *ngFor="let temp of showlist; let i=index">
+        <section class="card card-background mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{temp.postTitle}}</h5>
+                <div class="row container">
+                    <h6 class="card-subtitle text-muted"><i class="fa fa-user" aria-hidden="true"></i> :
+                        {{temp.userName}}</h6>
+                    <h6 class="card-subtitle text-muted ml-2" *ngIf="temp.comments !== null"><i class="fa fa-comments"
+                            aria-hidden="true"></i> : {{temp.comments.length}}</h6>
+                </div>
+                <hr>
             </div>
-            <hr>
-        </div>
-        <div class="container">
-            <p class="card-text" [innerHTML]="temp.description | shorten: 100"></p>
-            <a class="buttonLink" routerLink="/postView/{{temp.postId}}">Read More</a>
-        </div>
-        <blockquote class="text-muted text-center">
-            <p *ngIf="temp.editDate !== null else create"><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{temp.editDate.slice(0,10)}}
-                {{temp.editDate.slice(11,16)}}</p>
-            <ng-template #create>
-                <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{temp.createdDate.slice(0,10)}} {{temp.createdDate.slice(11,16)}}</p>
-            </ng-template>
-        </blockquote>
-    </section>
+            <div class="container">
+                <p class="card-text" [innerHTML]="temp.description | shorten: 100"></p>
+                <a class="buttonLink" routerLink="/postView/{{temp.postId}}">Read More</a>
+            </div>
+            <blockquote class="text-muted text-center">
+                <p *ngIf="temp.editDate !== null else create"><i class="fas fa-clock ml-2" aria-hidden="true"></i> :
+                    {{temp.editDate.slice(0,10)}}
+                    {{temp.editDate.slice(11,16)}}</p>
+                <ng-template #create>
+                    <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{temp.createdDate.slice(0,10)}}
+                        {{temp.createdDate.slice(11,16)}}</p>
+                </ng-template>
+            </blockquote>
+        </section>
+    </div>
 </div>
+
 
 
 <h5 class="text-center">{{(massage|async)}}</h5>

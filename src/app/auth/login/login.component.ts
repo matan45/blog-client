@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Login } from '../store/auth.actions';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { take } from 'rxjs/operators';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-login',
@@ -20,17 +21,18 @@ export class LoginComponent implements OnInit {
   @Select(AuthState.getMassage) Massage: Observable<string>;
   @Select(AuthState.getSpanner) spinner: Observable<boolean>;
 
-  constructor(private store: Store, private toastr: ToastrService, private authService: AuthService) {
+  constructor(private store: Store, private toastr: ToastrService, private recaptchaV3Service: ReCaptchaV3Service, private authService: AuthService) {
     this.loginRequestPayload = {
       email: '',
-      password: ''
+      password: '',
+      token: ''
     };
   }
-  
+
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required,Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required)
     });
   }
@@ -38,7 +40,12 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginRequestPayload.email = this.loginForm.get('email').value;
     this.loginRequestPayload.password = this.loginForm.get('password').value;
-    this.sendlogin();
+    this.recaptchaV3Service.execute('recaptcha')
+    .subscribe(data => {
+      this.loginRequestPayload.token = data;
+      this.sendlogin();
+    });
+    
   }
 
   sendlogin() {
@@ -62,17 +69,18 @@ export class LoginComponent implements OnInit {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
     this.authService.signIn(socialPlatformProvider).then(socialusers => {
-      if(socialusers != null){
+      if (socialusers != null) {
         this.loginRequestPayload = {
           email: socialusers.email,
-          password: socialusers.name
+          password: socialusers.name,
+          token: ''
         };
         this.sendlogin();
       }
-    },error=>{
+    }, error => {
       console.log(error);
     });
   }
 
- 
+
 }
