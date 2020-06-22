@@ -12,6 +12,7 @@ export class PostStateModel {
     post: PostResponse;
     isCreatedByUser: boolean;
     massage: String;
+    postspinner: boolean;
 }
 
 @State<PostStateModel>({
@@ -28,7 +29,8 @@ export class PostStateModel {
             userName: ''
         },
         isCreatedByUser: false,
-        massage: ''
+        massage: '',
+        postspinner:false
     }
 
 })
@@ -53,6 +55,12 @@ export class PostState {
         return state.post;
     }
 
+    
+    @Selector()
+    static getPostSpanner(state: PostStateModel) {
+        return state.postspinner;
+    }
+
     @Selector()
     static getMassage(state: PostStateModel) {
         return state.massage;
@@ -63,7 +71,13 @@ export class PostState {
         { getState, patchState, dispatch }: StateContext<PostStateModel>,
         { payload }: CreatePost
     ) {
+        patchState({
+            postspinner:true
+        });
         this.post.create(payload).subscribe(() => {
+            patchState({
+                postspinner:false
+            });
             this.router.navigateByUrl('').then(() => {
                 dispatch(new FetchPosts(0));
             });
@@ -81,18 +95,12 @@ export class PostState {
             getState().posts = [];
         }
         patchState({
-            massage: 'Loading..'
+            massage: 'Loading...'
         });
         this.post.fetchposts(payload).subscribe(data => {
-            if (data.length > 0 && getState().posts.length > 0) {
-                const currentpost: PostResponse[] = getState().posts;
+            if (data.length > 0) {
                 patchState({
-                    posts: currentpost.concat(data).reverse(),
-                    massage: ''
-                });
-            } else if (data.length > 0 && getState().posts.length === 0) {
-                patchState({
-                    posts: data.reverse(),
+                    posts: data,
                     massage: ''
                 });
             } else {
@@ -108,9 +116,13 @@ export class PostState {
         { getState, patchState }: StateContext<PostStateModel>,
         { payload }: PostById
     ) {
+        patchState({
+            postspinner:true
+        });
         this.post.fetchpost(payload).subscribe(data => {
             patchState({
-                post: data
+                post: data,
+                postspinner:false
             });
         }, error => {
             throwError(error);
@@ -122,7 +134,13 @@ export class PostState {
         { getState, patchState, dispatch }: StateContext<PostStateModel>,
         { payload }: CreateComment
     ) {
+        patchState({
+            postspinner:true
+        });
         this.post.createComment(payload).subscribe(() => {
+            patchState({
+                postspinner:false
+            });
             dispatch(new PostById(payload.postId));
         }, error => {
             throwError(error);
@@ -135,10 +153,14 @@ export class PostState {
         { getState, patchState }: StateContext<PostStateModel>,
         { payload }: CreatedByUser
     ) {
+        patchState({
+            postspinner:true
+        });
         getState().isCreatedByUser = false;
         this.post.isCreatedByUser(payload).subscribe(data => {
             patchState({
-                isCreatedByUser: data
+                isCreatedByUser: data,
+                postspinner:false
             });
         }, error => {
             throwError(error);
@@ -150,7 +172,13 @@ export class PostState {
         { getState, patchState, dispatch }: StateContext<PostStateModel>,
         { payload }: DeletPost
     ) {
+        patchState({
+            postspinner:true
+        });
         this.post.deletepost(payload).subscribe(() => {
+            patchState({
+                postspinner:false
+            });
             this.router.navigateByUrl('').then(() => {
                 dispatch(new FetchPosts(0));
             });
@@ -178,7 +206,7 @@ export class PostState {
     ) {
 
         patchState({
-            isCreatedByUser: false
+            isCreatedByUser: false,
         });
 
     }

@@ -6,3 +6,8 @@
     display: inline-flex;
     vertical-align: middle;
   }
+
+  .edit-reCAPTCHA{
+    position: relative;
+    left:5%;
+}

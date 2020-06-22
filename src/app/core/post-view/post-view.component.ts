@@ -18,6 +18,7 @@ import * as moment from 'moment';
 export class PostViewComponent implements OnInit {
   @Select(PostState.getPost) post: Observable<PostResponse>;
   @Select(PostState.getisCreatedByUser) isEdit: Observable<boolean>;
+  @Select(PostState.getPostSpanner) spinner: Observable<boolean>;
   commentRequest: CommentsRequest;
   commentForm: FormGroup;
   postId: string;

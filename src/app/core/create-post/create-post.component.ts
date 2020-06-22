@@ -18,6 +18,7 @@ import * as moment from 'moment';
 })
 export class CreatePostComponent implements OnInit {
   @Select(PostState.getPost) post: Observable<PostResponse>;
+  @Select(PostState.getPostSpanner) spinner: Observable<boolean>;
   PostForm: FormGroup;
   postPayload: PostPayload;
   editPostPayload: EditPostPayload;
@@ -35,7 +36,7 @@ export class CreatePostComponent implements OnInit {
       postTitle: '',
       description: '',
       editDate: ''
-    }
+    };
   }
 
   ngOnInit(): void {
@@ -78,14 +79,14 @@ export class CreatePostComponent implements OnInit {
   createPost() {
     this.postPayload.postTitle = this.PostForm.get('title').value;
     this.postPayload.description = this.PostForm.get('description').value;
-    this.postPayload.createdDate = moment().format().toString();
+    this.postPayload.createdDate = moment().format('DD-MM-YYYY').toString();
     this.store.dispatch(new CreatePost(this.postPayload));
   }
 
   editPost() {
     this.editPostPayload.postTitle = this.PostForm.get('title').value;
     this.editPostPayload.description = this.PostForm.get('description').value;
-    this.editPostPayload.editDate = moment().format().toString();
+    this.editPostPayload.editDate = moment().format('DD-MM-YYYY').toString();
     this.editPostPayload.postId = this.postId;
     this.store.dispatch(new EditPost(this.editPostPayload));
   }

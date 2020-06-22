@@ -1,49 +1,55 @@
-<div class="container-fluid card border-purple">
-    <h2 class="card-title text-center" style="font-weight: 100;">{{(post|async).postTitle}}</h2>
-    <h6 class="card-subtitle text-muted ml-3"><i class="fa fa-user" aria-hidden="true"></i> : {{(post|async).userName}}</h6>
-    
-    <div class="card-subtitle ml-2 mt-2">
-        <p *ngIf="(post|async).editDate !== null else create"><i class="fas fa-clock ml-2" aria-hidden="true"></i> :
-            {{(post|async).editDate.slice(0,10)}}
-            {{(post|async).editDate.slice(11,16)}}</p>
-        <ng-template #create>
-            <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{(post|async).createdDate.slice(0,10)}}
-                {{(post|async).createdDate.slice(11,16)}}</p>
-        </ng-template>
-    </div>
+<div *ngIf="!(spinner |async) else loading">
+    <section id="slider">
+        <div class="container-fluid card border-purple">
+            <h2 class="card-title text-center" style="font-weight: 100;">{{(post|async).postTitle}}</h2>
+            <h6 class="card-subtitle text-muted ml-3"><i class="fa fa-user" aria-hidden="true"></i> :
+                {{(post|async).userName}}</h6>
 
-    <div *ngIf="(isEdit|async)" class="ml-sm-auto mb-2">
-        <a class="btn btn-warning mr-2" routerLink="/post/edit/{{(post|async).postId}}">Edit</a>
-        <button class="btn btn-danger" (click)="deletepost()">Delete</button>
-    </div>
-    <hr class="line">
+            <div class="card-subtitle ml-2 mt-2">
+                <p *ngIf="(post|async).editDate !== null else create"><i class="fas fa-clock ml-2"
+                        aria-hidden="true"></i> :
+                    {{(post|async).editDate.slice(0,10)}}
+                    {{(post|async).editDate.slice(11,16)}}</p>
+                <ng-template #create>
+                    <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{(post|async).createdDate.slice(0,10)}}
+                        {{(post|async).createdDate.slice(11,16)}}</p>
+                </ng-template>
+            </div>
 
-    <div class="container mt-2">
-        <p [innerHTML]="(post|async).description"></p>
-    </div>
-</div>
+            <div *ngIf="(isEdit|async)" class="ml-sm-auto mb-2">
+                <a class="btn btn-warning mr-2" routerLink="/post/edit/{{(post|async).postId}}">Edit</a>
+                <button class="btn btn-danger" (click)="deletepost()">Delete</button>
+            </div>
+            <hr class="line">
+
+            <div class="container mt-2">
+                <p [innerHTML]="(post|async).description"></p>
+            </div>
+        </div>
 
 
 
 
-<h4 class="lead mt-4">Comments:</h4>
-<div class="media ml-sm-4 mt-4" *ngFor="let temp of (post|async).comments">
-    <div class="card border-lime p-2">
+        <h4 class="lead mt-4">Comments:</h4>
+        <div class="media ml-sm-4 mt-4" *ngFor="let temp of (post|async).comments">
+            <div class="card border-lime p-2">
 
-        <h5>{{temp.userName}}</h5>
-        <small class="text-muted"  ><i class="fas fa-clock ml-2" style="color: blue;" aria-hidden="true"></i> : {{temp.createdDate.slice(0,10)}}
-            {{temp.createdDate.slice(11,16)}}</small>
-    </div>
-    <div class="media-body container-fluid">
-        <p class="font-comment">{{temp.text}}</p>
-    </div>
+                <h5>{{temp.userName}}</h5>
+                <small class="text-muted"><i class="fas fa-clock ml-2" style="color: blue;" aria-hidden="true"></i> :
+                    {{temp.createdDate.slice(0,10)}}
+                    {{temp.createdDate.slice(11,16)}}</small>
+            </div>
+            <div class="media-body container-fluid">
+                <p class="font-comment">{{temp.text}}</p>
+            </div>
 
-</div>
-<hr>
+        </div>
+        <hr>
+    </section>
 
-<form *ngIf="islogin else notlog" [formGroup]="commentForm" (ngSubmit)="submit()">
-    <div class="container-lg">
-        <editor [formControlName]="'text'" apiKey="5hk31bq90kk57t5fnfwl38x33p4cgz9sqyov5cqqfy8dmixd" [init]="{
+    <form *ngIf="islogin else notlog" [formGroup]="commentForm" (ngSubmit)="submit()">
+        <div class="container-lg">
+            <editor [formControlName]="'text'" apiKey="5hk31bq90kk57t5fnfwl38x33p4cgz9sqyov5cqqfy8dmixd" [init]="{
                height: 220,
                resize: false,
                forced_root_block : '',
@@ -60,15 +66,23 @@
                  alignleft aligncenter alignright alignjustify | \
                  bullist numlist outdent indent | removeformat | help'
              }"></editor>
-        <span *ngIf="!commentForm.get('text').valid && commentForm.get('text').touched">
-            Description cannot be empty
-        </span>
-        <div class="mt-2">
-            <button [disabled]="commentForm.invalid" type="submit" class="btn btn-primary">comment</button>
+            <span *ngIf="!commentForm.get('text').valid && commentForm.get('text').touched">
+                Description cannot be empty
+            </span>
+            <div class="mt-2">
+                <button [disabled]="commentForm.invalid" type="submit" class="btn btn-primary">comment</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<ng-template #notlog>
-    <p class="text-center">only login users can comment the post</p>
+    <ng-template #notlog>
+        <p class="text-center">only login users can comment the post</p>
+    </ng-template>
+
+</div>
+
+<ng-template #loading>
+    <div class="centered">
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
 </ng-template>

@@ -7,6 +7,11 @@
     transform: translate(-50%,-50%);
 }
 
+.centered-reCAPTCHA{
+    position: relative;
+    left: 35%;
+}
+
 .grecaptcha-badge{
     visibility: hidden;
 }

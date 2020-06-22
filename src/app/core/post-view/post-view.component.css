@@ -8,3 +8,19 @@
     color: black;
     background-color: black;
 }
+
+#slider {
+    transform: translateX(-100%);
+    animation: slide-in 1s forwards;
+  }
+  
+  
+    
+  @keyframes slide-in {
+    100% { transform: translateX(0%); }
+  }
+    
+  @keyframes slide-out {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }

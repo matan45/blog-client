@@ -3,4 +3,5 @@ export interface EditUserRequest {
     email: string;
     password: string;
     refreshToken: string;
+    token:string;
 }
