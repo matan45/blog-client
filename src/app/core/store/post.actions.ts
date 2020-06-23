@@ -17,10 +17,6 @@ export class PostById {
     constructor(public payload: string) { }
 }
 
-export class CreateComment {
-    static readonly type = "[Post]create-comment";
-    constructor(public payload: CommentsRequest) { }
-}
 
 export class CreatedByUser {
     static readonly type = "[Post]is-Created-By-User";

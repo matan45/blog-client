@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { PostService } from '../post.service';
-import { CreatePost, FetchPosts, PostById, CreateComment, CreatedByUser, DeletPost, EditPost, PostLogOut } from './post.actions';
+import { CreatePost, FetchPosts, PostById, CreatedByUser, DeletPost, EditPost, PostLogOut } from './post.actions';
 import { PostResponse } from '../entities/PostResponsePayload';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -124,24 +124,6 @@ export class PostState {
                 post: data,
                 postspinner:false
             });
-        }, error => {
-            throwError(error);
-        });
-    }
-
-    @Action(CreateComment)
-    Commentcreate(
-        { getState, patchState, dispatch }: StateContext<PostStateModel>,
-        { payload }: CreateComment
-    ) {
-        patchState({
-            postspinner:true
-        });
-        this.post.createComment(payload).subscribe(() => {
-            patchState({
-                postspinner:false
-            });
-            dispatch(new PostById(payload.postId));
         }, error => {
             throwError(error);
         });

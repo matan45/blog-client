@@ -14,7 +14,7 @@ import { EditPostPayload } from './entities/EditPostPayload';
 })
 export class PostService {
 
-  readonly serverURL = environment.production ? prod.ServerUrl : environment.ServerUrl;;
+  readonly serverURL = environment.production ? prod.ServerUrl : environment.ServerUrl;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -28,10 +28,6 @@ export class PostService {
 
   fetchpost(postId: string): Observable<PostResponse> {
     return this.httpClient.get<PostResponse>(`${this.serverURL}/api/posts/${postId}`).pipe(map(response => response));
-  }
-
-  createComment(commentPayload: CommentsRequest): Observable<any> {
-    return this.httpClient.post(`${this.serverURL}/api/comments/`, commentPayload);
   }
 
   isCreatedByUser(postId: string): Observable<boolean> {

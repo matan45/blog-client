@@ -8,11 +8,9 @@
             <div class="card-subtitle ml-2 mt-2">
                 <p *ngIf="(post|async).editDate !== null else create"><i class="fas fa-clock ml-2"
                         aria-hidden="true"></i> :
-                    {{(post|async).editDate.slice(0,10)}}
-                    {{(post|async).editDate.slice(11,16)}}</p>
+                    {{(post|async).editDate}}</p>
                 <ng-template #create>
-                    <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{(post|async).createdDate.slice(0,10)}}
-                        {{(post|async).createdDate.slice(11,16)}}</p>
+                    <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{(post|async).createdDate}}</p>
                 </ng-template>
             </div>
 
@@ -31,13 +29,12 @@
 
 
         <h4 class="lead mt-4">Comments:</h4>
-        <div class="media ml-sm-4 mt-4" *ngFor="let temp of (post|async).comments">
+        <div class="media ml-sm-4 mt-4" *ngFor="let temp of showComments">
             <div class="card border-lime p-2">
 
                 <h5>{{temp.userName}}</h5>
                 <small class="text-muted"><i class="fas fa-clock ml-2" style="color: blue;" aria-hidden="true"></i> :
-                    {{temp.createdDate.slice(0,10)}}
-                    {{temp.createdDate.slice(11,16)}}</small>
+                    {{temp.createdDate}}</small>
             </div>
             <div class="media-body container-fluid">
                 <p class="font-comment">{{temp.text}}</p>

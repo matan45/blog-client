@@ -2,5 +2,6 @@ export interface CommentsRequest {
     postId: string;
     text: string;
     userName: string;
-    createDate: string;
+    createdDate: string;
+    userEmail:string;
 }

@@ -79,14 +79,14 @@ export class CreatePostComponent implements OnInit {
   createPost() {
     this.postPayload.postTitle = this.PostForm.get('title').value;
     this.postPayload.description = this.PostForm.get('description').value;
-    this.postPayload.createdDate = moment().format('DD-MM-YYYY').toString();
+    this.postPayload.createdDate = moment().format('DD-MM-YYYY HH:mm').toString();
     this.store.dispatch(new CreatePost(this.postPayload));
   }
 
   editPost() {
     this.editPostPayload.postTitle = this.PostForm.get('title').value;
     this.editPostPayload.description = this.PostForm.get('description').value;
-    this.editPostPayload.editDate = moment().format('DD-MM-YYYY').toString();
+    this.editPostPayload.editDate = moment().format('DD-MM-YYYY HH:mm').toString();
     this.editPostPayload.postId = this.postId;
     this.store.dispatch(new EditPost(this.editPostPayload));
   }

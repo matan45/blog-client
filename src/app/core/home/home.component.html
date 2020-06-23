@@ -19,11 +19,9 @@
             </div>
             <blockquote class="text-muted text-center">
                 <p *ngIf="temp.editDate !== null else create"><i class="fas fa-clock ml-2" aria-hidden="true"></i> :
-                    {{temp.editDate.slice(0,10)}}
-                    {{temp.editDate.slice(11,16)}}</p>
+                    {{temp.editDate}}</p>
                 <ng-template #create>
-                    <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{temp.createdDate.slice(0,10)}}
-                        {{temp.createdDate.slice(11,16)}}</p>
+                    <p><i class="fas fa-clock ml-2" aria-hidden="true"></i> : {{temp.createdDate}}</p>
                 </ng-template>
             </blockquote>
         </section>

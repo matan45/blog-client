@@ -34,10 +34,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new FetchPosts(this.page));
     this.posts.subscribe(data => {
-      console.log({data})
       for (let i = 0; i < data.length; i++) {
         this.showlist.push(data[i]);
       }
+      this.showlist.reverse();
     });
   }
 
