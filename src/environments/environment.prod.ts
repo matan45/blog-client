@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  ServerUrl: ""
+  ServerUrl: "https://matan-blog-server.herokuapp.com"
 };
