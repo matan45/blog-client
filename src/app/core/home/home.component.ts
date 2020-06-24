@@ -28,7 +28,8 @@ export class HomeComponent implements OnInit {
   public showlist: PostResponse[] = [];
   page: number = 0;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {
+   }
 
 
   ngOnInit(): void {

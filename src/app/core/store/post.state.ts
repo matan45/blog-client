@@ -79,7 +79,7 @@ export class PostState {
                 postspinner:false
             });
             this.router.navigateByUrl('').then(() => {
-                dispatch(new FetchPosts(0));
+                window.location.reload();
             });
         }, error => {
             patchState({
@@ -132,7 +132,7 @@ export class PostState {
                 postspinner:false
             });
             this.router.navigateByUrl('').then(() => {
-                dispatch(new FetchPosts(0));
+                window.location.reload();
             });
         });
     }
@@ -173,7 +173,7 @@ export class PostState {
                 postspinner:false
             });
             this.router.navigateByUrl('').then(() => {
-                dispatch(new FetchPosts(0));
+                window.location.reload();
             });
         }, error => {
             patchState({
