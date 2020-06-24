@@ -27,20 +27,25 @@
 
 
 
+        <div *ngIf="isSendComment else sppiner">
+            <h4 class="lead mt-4">Comments:</h4>
+            <div class="media ml-sm-4 mt-4" *ngFor="let temp of showComments">
+                <div class="card border-lime p-2">
 
-        <h4 class="lead mt-4">Comments:</h4>
-        <div class="media ml-sm-4 mt-4" *ngFor="let temp of showComments">
-            <div class="card border-lime p-2">
-
-                <h5>{{temp.userName}}</h5>
-                <small class="text-muted"><i class="fas fa-clock ml-2" style="color: blue;" aria-hidden="true"></i> :
-                    {{temp.createdDate}}</small>
+                    <h5>{{temp.userName}}</h5>
+                    <small class="text-muted"><i class="fas fa-clock ml-2" style="color: blue;" aria-hidden="true"></i>
+                        : {{temp.createdDate}}</small>
+                </div>
+                <div class="media-body container-fluid">
+                    <p class="font-comment">{{temp.text}}</p>
+                </div>
             </div>
-            <div class="media-body container-fluid">
-                <p class="font-comment">{{temp.text}}</p>
-            </div>
-
         </div>
+        <ng-template #sppiner>
+            <div class="sppiner-centered">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+        </ng-template>
         <hr>
     </section>
 

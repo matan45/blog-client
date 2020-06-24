@@ -82,6 +82,9 @@ export class PostState {
                 dispatch(new FetchPosts(0));
             });
         }, error => {
+            patchState({
+                postspinner:false
+            });
             throwError(error);
         });
     }
@@ -113,7 +116,7 @@ export class PostState {
 
     @Action(PostById)
     Fetchpost(
-        { getState, patchState }: StateContext<PostStateModel>,
+        { getState, patchState,dispatch }: StateContext<PostStateModel>,
         { payload }: PostById
     ) {
         patchState({
@@ -125,7 +128,12 @@ export class PostState {
                 postspinner:false
             });
         }, error => {
-            throwError(error);
+            patchState({
+                postspinner:false
+            });
+            this.router.navigateByUrl('').then(() => {
+                dispatch(new FetchPosts(0));
+            });
         });
     }
 
@@ -145,6 +153,9 @@ export class PostState {
                 postspinner:false
             });
         }, error => {
+            patchState({
+                postspinner:false
+            });
             throwError(error);
         });
     }
@@ -165,6 +176,9 @@ export class PostState {
                 dispatch(new FetchPosts(0));
             });
         }, error => {
+            patchState({
+                postspinner:false
+            });
             throwError(error);
         });
     }
@@ -186,9 +200,9 @@ export class PostState {
     logout(
         { getState, patchState }: StateContext<PostStateModel>
     ) {
-
         patchState({
             isCreatedByUser: false,
+            postspinner:false
         });
 
     }

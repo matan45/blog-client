@@ -18,7 +18,7 @@ import { Message } from '@stomp/stompjs';
   templateUrl: './post-view.component.html',
   styleUrls: ['./post-view.component.css']
 })
-export class PostViewComponent implements OnInit,OnDestroy {
+export class PostViewComponent implements OnInit, OnDestroy {
   @Select(PostState.getPost) post: Observable<PostResponse>;
   @Select(PostState.getisCreatedByUser) isEdit: Observable<boolean>;
   @Select(PostState.getPostSpanner) spinner: Observable<boolean>;
@@ -26,8 +26,10 @@ export class PostViewComponent implements OnInit,OnDestroy {
   commentForm: FormGroup;
   postId: string;
   public islogin: boolean = false;
+  public isSendComment: boolean = false;
   public showComments: Comment[] = [];
-  private topicSubscription: Subscription;
+  topicSubscription: Subscription;
+  comment: Comment;
 
 
   constructor(private route: ActivatedRoute, private store: Store, private auth: AuthService, private rxStompService: RxStompService) {
@@ -40,7 +42,7 @@ export class PostViewComponent implements OnInit,OnDestroy {
     };
     this.islogin = this.auth.isLoggedIn();
   }
-  
+
 
   ngOnInit(): void {
     this.commentForm = new FormGroup({
@@ -56,8 +58,12 @@ export class PostViewComponent implements OnInit,OnDestroy {
     this.postId = this.route.snapshot.paramMap.get("id");
     this.store.dispatch(new PostById(this.postId));
     this.topicSubscription = this.rxStompService.watch(`/post/${this.postId}`).subscribe((message: Message) => {
-      this.showComments.push(JSON.parse(message.body));
-      
+      this.comment = JSON.parse(message.body);
+      if (this.isSendComment && this.comment.userEmail === this.commentRequest.userEmail){
+        this.isSendComment = false;
+      }
+      this.showComments.push(this.comment);
+
     });
     if (this.islogin) {
       this.store.dispatch(new CreatedByUser(this.postId));
@@ -78,8 +84,9 @@ export class PostViewComponent implements OnInit,OnDestroy {
     this.commentRequest.postId = this.postId;
     this.commentRequest.userName = this.auth.getUserName();
     this.commentRequest.createdDate = moment().format('DD-MM-YYYY HH:mm').toString();
-    this.commentRequest.userEmail=this.auth.getEmail();
+    this.commentRequest.userEmail = this.auth.getEmail();
     this.rxStompService.publish({ destination: '/app/send/post', body: JSON.stringify(this.commentRequest) });
+    this.isSendComment = true;
     this.commentForm.reset();
   }
 

@@ -2,7 +2,7 @@ import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 import { environment as prod } from 'src/environments/environment.prod';
 import { environment } from 'src/environments/environment';
 
-const serverURL = environment.production ? prod.ServerUrl : environment.ServerUrl.substring(4);
+const serverURL = environment.production ? prod.ServerUrl.substring(5) : environment.ServerUrl.substring(4);
 
 export const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?
