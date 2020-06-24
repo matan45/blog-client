@@ -26,7 +26,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
   commentForm: FormGroup;
   postId: string;
   public islogin: boolean = false;
-  public isSendComment: boolean = false;
   public showComments: Comment[] = [];
   topicSubscription: Subscription;
   comment: Comment;
@@ -59,9 +58,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.store.dispatch(new PostById(this.postId));
     this.topicSubscription = this.rxStompService.watch(`/post/${this.postId}`).subscribe((message: Message) => {
       this.comment = JSON.parse(message.body);
-      if (this.isSendComment && this.comment.userEmail === this.commentRequest.userEmail){
-        this.isSendComment = false;
-      }
       this.showComments.push(this.comment);
 
     });
@@ -86,7 +82,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.commentRequest.createdDate = moment().format('DD-MM-YYYY HH:mm').toString();
     this.commentRequest.userEmail = this.auth.getEmail();
     this.rxStompService.publish({ destination: '/app/send/post', body: JSON.stringify(this.commentRequest) });
-    this.isSendComment = true;
     this.commentForm.reset();
   }
 

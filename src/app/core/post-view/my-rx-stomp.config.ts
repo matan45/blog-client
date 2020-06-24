@@ -6,7 +6,7 @@ const serverURL = environment.production ?  environment.ServerUrl.substring(4) :
 
 export const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?
-  brokerURL: `ws${serverURL}/socket/websocket`,
+  brokerURL: `wss${serverURL}/socket/websocket`,
 
   // How often to heartbeat?
   // Interval in milliseconds, set to 0 to disable
@@ -24,7 +24,7 @@ export const myRxStompConfig: InjectableRxStompConfig = {
   // Skip this key to stop logging to console
 
   debug: (msg: string): void => {
-    if (!environment.production) {
+    if (environment.production) {
       console.log(new Date(), msg);
     }
 
