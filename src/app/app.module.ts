@@ -45,21 +45,21 @@ import { dev } from './profile';
     FormsModule,
     EditorModule,
     AuthModule,
-    NgxsModule.forRoot([PostState]),
-    dev ? NgxsReduxDevtoolsPluginModule.forRoot():[] ,
-    dev ? NgxsLoggerPluginModule.forRoot():[],
+    NgxsModule.forRoot([PostState], { developmentMode: dev }),
+    dev ? NgxsReduxDevtoolsPluginModule.forRoot() : [],
+    dev ? NgxsLoggerPluginModule.forRoot() : [],
     NgbModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    {
-      provide: InjectableRxStompConfig,
-      useValue: myRxStompConfig
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
-    }
+  {
+    provide: InjectableRxStompConfig,
+    useValue: myRxStompConfig
+  },
+  {
+    provide: RxStompService,
+    useFactory: rxStompServiceFactory,
+    deps: [InjectableRxStompConfig]
+  }
   ],
   bootstrap: [AppComponent]
 })
