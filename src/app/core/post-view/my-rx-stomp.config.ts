@@ -1,8 +1,9 @@
 import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 import { environment as prod } from 'src/environments/environment.prod';
 import { environment } from 'src/environments/environment';
+import { dev } from 'src/app/profile';
 
-const serverURL = prod.production ? `wss${prod.ServerUrl.substring(5)}/socket/websocket` : `ws${environment.ServerUrl.substring(4)}/socket/websocket`;
+const serverURL = dev ? `wss${prod.ServerUrl.substring(5)}/socket/websocket` : `ws${environment.ServerUrl.substring(4)}/socket/websocket`;
 
 export const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?
@@ -24,7 +25,7 @@ export const myRxStompConfig: InjectableRxStompConfig = {
   // Skip this key to stop logging to console
 
   debug: (msg: string): void => {
-    if (!environment.production) {
+    if (dev) {
       console.log(new Date(), msg);
     }
 

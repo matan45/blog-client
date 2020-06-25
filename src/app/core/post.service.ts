@@ -7,13 +7,14 @@ import { PostResponse } from './entities/PostResponsePayload';
 import { map } from 'rxjs/operators';
 import { environment as prod } from 'src/environments/environment.prod';
 import { EditPostPayload } from './entities/EditPostPayload';
+import { dev } from '../profile';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  readonly serverURL = prod.production ?   prod.ServerUrl : environment.ServerUrl;
+  readonly serverURL = dev ?   prod.ServerUrl : environment.ServerUrl;
   
 
   constructor(private httpClient: HttpClient) { }

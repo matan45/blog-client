@@ -14,11 +14,12 @@ import { EditUserRequest } from './Entities/EditUserPayload';
 import { Store } from '@ngxs/store';
 import { UserProfile, CheckLogin } from './store/auth.actions';
 import { PostLogOut } from '../core/store/post.actions';
+import { dev } from '../profile';
 
 @Injectable()
 export class AuthService {
 
-  readonly serverURL = prod.production ? prod.ServerUrl: environment.ServerUrl;
+  readonly serverURL = dev ? prod.ServerUrl: environment.ServerUrl;
 
   refreshTokenPayload: RefreshTokenPayload = {
     refreshToken: this.getRefreshToken(),

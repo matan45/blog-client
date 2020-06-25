@@ -9,7 +9,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgxsModule } from "@ngxs/store";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
-import { environment } from 'src/environments/environment';
 import { HeaderComponent } from './core/header/header.component';
 import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './core/home/home.component';
@@ -25,6 +24,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
 import { myRxStompConfig } from './core/post-view/my-rx-stomp.config';
+import { dev } from './profile';
 
 
 @NgModule({
@@ -46,8 +46,8 @@ import { myRxStompConfig } from './core/post-view/my-rx-stomp.config';
     EditorModule,
     AuthModule,
     NgxsModule.forRoot([PostState]),
-    environment.production ? NgxsReduxDevtoolsPluginModule.forRoot():[] ,
-    environment.production ? NgxsLoggerPluginModule.forRoot():[],
+    dev ? NgxsReduxDevtoolsPluginModule.forRoot():[] ,
+    dev ? NgxsLoggerPluginModule.forRoot():[],
     NgbModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

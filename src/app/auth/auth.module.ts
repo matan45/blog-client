@@ -19,6 +19,7 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { environment } from 'src/environments/environment';
 import { environment as prod } from 'src/environments/environment.prod';
+import { dev } from '../profile';
 
 
 
@@ -32,8 +33,8 @@ const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
 }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
-const googleKey = prod.production ? prod.googleKey : environment.googleKey;
-const facebookKey = prod.production ? prod.facebookKey : environment.facebookKey;
+const googleKey = dev ? prod.googleKey : environment.googleKey;
+const facebookKey = dev ? prod.facebookKey : environment.facebookKey;
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
