@@ -19,14 +19,14 @@ import { dev } from '../profile';
 @Injectable()
 export class AuthService {
 
-  readonly serverURL = dev ? prod.ServerUrl: environment.ServerUrl;
+  readonly serverURL = dev ? environment.ServerUrl : prod.ServerUrl;
 
   refreshTokenPayload: RefreshTokenPayload = {
     refreshToken: this.getRefreshToken(),
     email: this.getEmail()
   };
 
-  constructor(private httpClient: HttpClient,private store: Store, private localStorage: LocalStorageService) { }
+  constructor(private httpClient: HttpClient, private store: Store, private localStorage: LocalStorageService) { }
 
   login(loginRequestPayload: LoginRequest): Observable<boolean> {
     return this.httpClient.post<LoginResponse>(`${this.serverURL}/api/auth/login`, loginRequestPayload)
@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   editUser(editUserPayload: EditUserRequest) {
-    editUserPayload.refreshToken=this.getRefreshToken();
+    editUserPayload.refreshToken = this.getRefreshToken();
     this.httpClient.put<LoginResponse>(`${this.serverURL}/api/user/profile/edit`, editUserPayload).subscribe(data => {
       this.refreshTokenPayload = {
         refreshToken: data.refreshToken,
@@ -71,7 +71,7 @@ export class AuthService {
       this.localStorage.store('username', data.username);
       this.store.dispatch(new UserProfile());
       this.store.dispatch(new CheckLogin());
-    },error=>{
+    }, error => {
       throwError(error);
     });
 

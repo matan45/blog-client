@@ -14,8 +14,8 @@ import { dev } from '../profile';
 })
 export class PostService {
 
-  readonly serverURL = dev ?   prod.ServerUrl : environment.ServerUrl;
-  
+  readonly serverURL = dev ? environment.ServerUrl : prod.ServerUrl;
+
 
   constructor(private httpClient: HttpClient) { }
 

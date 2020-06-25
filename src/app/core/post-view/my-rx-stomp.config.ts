@@ -3,7 +3,7 @@ import { environment as prod } from 'src/environments/environment.prod';
 import { environment } from 'src/environments/environment';
 import { dev } from 'src/app/profile';
 
-const serverURL = dev ? `wss${prod.ServerUrl.substring(5)}/socket/websocket` : `ws${environment.ServerUrl.substring(4)}/socket/websocket`;
+const serverURL = dev ? `ws${environment.ServerUrl.substring(4)}/socket/websocket` : `wss${prod.ServerUrl.substring(5)}/socket/websocket`;
 
 export const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?
