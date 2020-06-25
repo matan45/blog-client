@@ -50,6 +50,8 @@ export function provideConfig() {
   return config;
 }
 
+const recaptcha = dev ? environment.recaptcha : prod.recaptcha;
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -78,7 +80,7 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig
     },
-    { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LdkcKcZAAAAABH4GT-4R_WCI-Zi8T_0_G-j-IMB' },
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: recaptcha },
     AuthState
   ]
 })
