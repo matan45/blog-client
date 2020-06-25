@@ -2,7 +2,7 @@ import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 import { environment as prod } from 'src/environments/environment.prod';
 import { environment } from 'src/environments/environment';
 
-const serverURL = environment.production ? `wss${prod.ServerUrl.substring(5)}/socket/websocket` : `ws${environment.ServerUrl.substring(4)}/socket/websocket`;
+const serverURL = prod.production ? `wss${prod.ServerUrl.substring(5)}/socket/websocket` : `ws${environment.ServerUrl.substring(4)}/socket/websocket`;
 
 export const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?

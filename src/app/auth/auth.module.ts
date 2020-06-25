@@ -32,8 +32,8 @@ const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
 }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
-const googleKey = environment.production ? prod.googleKey : environment.googleKey;
-const facebookKey = environment.production ? prod.facebookKey : environment.facebookKey;
+const googleKey = prod.production ? prod.googleKey : environment.googleKey;
+const facebookKey = prod.production ? prod.facebookKey : environment.facebookKey;
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,

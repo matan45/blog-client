@@ -46,8 +46,8 @@ import { myRxStompConfig } from './core/post-view/my-rx-stomp.config';
     EditorModule,
     AuthModule,
     NgxsModule.forRoot([PostState]),
-    !environment.production ? NgxsReduxDevtoolsPluginModule.forRoot():[] ,
-    !environment.production ? NgxsLoggerPluginModule.forRoot():[],
+    environment.production ? NgxsReduxDevtoolsPluginModule.forRoot():[] ,
+    environment.production ? NgxsLoggerPluginModule.forRoot():[],
     NgbModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
