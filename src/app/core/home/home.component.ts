@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
       if (data === '') {
         if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
           this.store.dispatch(new FetchPosts(++this.page));
-          window.scrollTo(0, window.screen.availHeight - (window.screen.availHeight / 2));
+          //window.scrollTo(0, window.screen.availHeight - (window.screen.availHeight / 2));
         }
       }
     });

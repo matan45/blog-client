@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import {NgxWebstorageModule} from 'ngx-webstorage';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from './auth.service';
 import { AuthState } from './store/auth.state';
@@ -17,6 +17,8 @@ import { ProfileComponent } from '../auth/profile/profile.component';
 import { ToggleDirective } from './Entities/toggle.directive';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { environment } from 'src/environments/environment';
+import { environment as prod } from 'src/environments/environment.prod';
 
 
 
@@ -25,20 +27,21 @@ const fbLoginOptions: LoginOpt = {
   return_scopes: true,
   enable_profile_selector: true
 }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
- 
+
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
 }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
- 
 
+const googleKey = environment.production ? prod.googleKey : environment.googleKey;
+const facebookKey = environment.production ? prod.facebookKey : environment.facebookKey;
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider("597672953301-lirn58bctkhk6av31ebv4tgus5pjeoh6.apps.googleusercontent.com",googleLoginOptions)
+    provider: new GoogleLoginProvider(googleKey, googleLoginOptions)
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider("3046051098811943",fbLoginOptions)
+    provider: new FacebookLoginProvider(facebookKey, fbLoginOptions)
   }
 ]);
 

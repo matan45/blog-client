@@ -182,7 +182,7 @@ export class AuthState {
         this.auth.deletuser();
         patchState({
             isLogin: false,
-            userProfile: null
+            userProfile: getState().userProfile
         });
         this.router.navigate(['/']);
     }

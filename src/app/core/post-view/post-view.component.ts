@@ -57,15 +57,17 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.postId = this.route.snapshot.paramMap.get("id");
     this.store.dispatch(new PostById(this.postId));
     this.topicSubscription = this.rxStompService.watch(`/post/${this.postId}`).subscribe((message: Message) => {
-      this.comment = JSON.parse(message.body);
-      this.showComments.push(this.comment);
+      this.showComments.push(JSON.parse(message.body));
 
     });
     if (this.islogin) {
       this.store.dispatch(new CreatedByUser(this.postId));
     }
     this.post.subscribe(data => {
-      this.showComments = data.comments;
+      if(data.comments !== null){
+        this.showComments = data.comments;
+      }
+      
     });
   }
 

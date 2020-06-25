@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  ServerUrl: "http://localhost:8080"
+  ServerUrl: "http://localhost:8080",
+  googleKey: "597672953301-8iode3je2m364gok7qgcvranp70gj1m4.apps.googleusercontent.com",
+  facebookKey: "3215789335140601"
 };
 
 /*

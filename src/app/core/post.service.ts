@@ -13,7 +13,8 @@ import { EditPostPayload } from './entities/EditPostPayload';
 })
 export class PostService {
 
-  readonly serverURL = environment.production ?  environment.ServerUrl: prod.ServerUrl;
+  readonly serverURL = environment.production ?   prod.ServerUrl : environment.ServerUrl;
+  
 
   constructor(private httpClient: HttpClient) { }
 

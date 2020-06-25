@@ -2,11 +2,11 @@ import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 import { environment as prod } from 'src/environments/environment.prod';
 import { environment } from 'src/environments/environment';
 
-const serverURL = environment.production ?  environment.ServerUrl.substring(4) :prod.ServerUrl.substring(5);
+const serverURL = environment.production ? `wss${prod.ServerUrl.substring(5)}/socket/websocket` : `ws${environment.ServerUrl.substring(4)}/socket/websocket`;
 
 export const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?
-  brokerURL: `wss${serverURL}/socket/websocket`,
+  brokerURL: `${serverURL}`,
 
   // How often to heartbeat?
   // Interval in milliseconds, set to 0 to disable
@@ -24,7 +24,7 @@ export const myRxStompConfig: InjectableRxStompConfig = {
   // Skip this key to stop logging to console
 
   debug: (msg: string): void => {
-    if (environment.production) {
+    if (!environment.production) {
       console.log(new Date(), msg);
     }
 

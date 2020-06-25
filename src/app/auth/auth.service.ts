@@ -18,7 +18,7 @@ import { PostLogOut } from '../core/store/post.actions';
 @Injectable()
 export class AuthService {
 
-  readonly serverURL = environment.production ? environment.ServerUrl:prod.ServerUrl;
+  readonly serverURL = environment.production ? prod.ServerUrl: environment.ServerUrl;
 
   refreshTokenPayload: RefreshTokenPayload = {
     refreshToken: this.getRefreshToken(),
@@ -71,7 +71,7 @@ export class AuthService {
       this.store.dispatch(new UserProfile());
       this.store.dispatch(new CheckLogin());
     },error=>{
-      throwError(error);;
+      throwError(error);
     });
 
   }
