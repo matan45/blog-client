@@ -28,7 +28,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
   public islogin: boolean = false;
   public showComments: Comment[] = [];
   topicSubscription: Subscription;
-  comment: Comment;
 
 
   constructor(private route: ActivatedRoute, private store: Store, private auth: AuthService, private rxStompService: RxStompService) {

@@ -45,7 +45,7 @@ import { dev } from './profile';
     FormsModule,
     EditorModule,
     AuthModule,
-    NgxsModule.forRoot([PostState], { developmentMode: dev }),
+    NgxsModule.forRoot([PostState]),
     dev ? NgxsReduxDevtoolsPluginModule.forRoot() : [],
     dev ? NgxsLoggerPluginModule.forRoot() : [],
     NgbModule

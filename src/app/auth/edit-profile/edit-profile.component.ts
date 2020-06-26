@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserDetails } from '../Entities/UserProfile';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
@@ -24,7 +24,6 @@ export class EditProfileComponent implements OnInit {
   EdituserPayload: EditUserRequest;
   @Select(AuthState.getMassage) Massage: Observable<string>;
   @Select(AuthState.getSpanner) spinner: Observable<boolean>;
-  //TODO:Add recpa
 
   constructor(private store: Store, private toastr: ToastrService, private recaptchaV3Service: ReCaptchaV3Service, private formBuilder: FormBuilder) {
     this.EdituserPayload = {

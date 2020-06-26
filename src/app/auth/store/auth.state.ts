@@ -103,7 +103,9 @@ export class AuthState {
                     spinner: false,
                     username: this.auth.getUserName()
                 });
-                this.router.navigate(['/']);
+                this.router.navigateByUrl('').then(() => {
+                    window.location.reload();
+                });
             }
         }, error => {
             patchState({
@@ -123,7 +125,9 @@ export class AuthState {
             isLogin: false,
             userProfile: null
         });
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('').then(() => {
+            window.location.reload();
+        });
     }
 
     @Action(CheckLogin)
@@ -178,12 +182,24 @@ export class AuthState {
     deleteuser(
         { getState, patchState }: StateContext<AuthStateModel>
     ) {
-
+        patchState({
+            spinner: true
+        });
         this.auth.deletuser();
         patchState({
             isLogin: false,
-            userProfile: getState().userProfile
+            spinner: false,
+            userProfile: {
+                username: '',
+                authorities: [],
+                commentsNumber: 0,
+                created: '',
+                email: '',
+                posts: []
+            }
         });
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('').then(() => {
+            window.location.reload();
+        });
     }
 }

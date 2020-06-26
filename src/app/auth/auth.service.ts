@@ -122,7 +122,7 @@ export class AuthService {
 
   }
 
-  deletuser() {
+  deletuser():void {
     this.httpClient.delete(`${this.serverURL}/api/user/delete`,
       { responseType: 'text' })
       .subscribe(data => {
